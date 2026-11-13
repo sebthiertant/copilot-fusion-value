@@ -20,8 +20,6 @@
   const byLabel = Object.fromEntries(AA.map((a) => [a.label, a]));
   const H = Object.fromEntries(Object.entries(KEY).map(([k, l]) => [k, byLabel[l]]));
   const ORDER = ["fusion", "opus", "astra", "sol"];
-  // Vertical label offsets used on narrow screens to avoid overlaps
-  const SMALL_DY = { fusion: -14, opus: -12, astra: 18, sol: 18 };
 
   const fmt$ = (v, d = 0) => "$" + v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
   const fmtN = (v) => v.toLocaleString("en-US");
@@ -212,28 +210,40 @@
     const labelPlugin = {
       id: "pointLabels",
       afterDatasetsDraw(chart) {
-        const { ctx } = chart;
+        const { ctx, chartArea: ca } = chart;
+        const small = chart.width < 620;
+        const placed = [];
+        const hits = (r) => placed.some((q) => r.x < q.x + q.w && r.x + r.w > q.x && r.y < q.y + q.h && r.y + r.h > q.y);
         chart.data.datasets.forEach((ds, di) => {
           if (!ds._labels) return;
           const meta = chart.getDatasetMeta(di);
-          const small = chart.width < 620;
-          meta.data.forEach((pt, i) => {
-            const k = ds._keys[i];
-            ctx.save();
-            ctx.font = `700 ${small ? 11 : k === "fusion" ? 15 : 13}px "Mona Sans", sans-serif`;
-            ctx.fillStyle = META[k].color;
-            const txt = (small ? META[k].short : META[k].name) + (k === "fusion" ? " ★" : "");
+          meta.data.forEach((pt) => placed.push({ x: pt.x - 10, y: pt.y - 10, w: 20, h: 20 }));
+          meta.data.map((pt, i) => ({ pt, k: ds._keys[i] })).forEach(({ pt, k }) => {
             const off = k === "fusion" ? 14 : 11;
-            const w = ctx.measureText(txt).width;
-            const flip = pt.x + off + w > chart.chartArea.right + (small ? 4 : 150);
-            ctx.textAlign = flip ? "right" : "left";
-            const lx = flip ? pt.x - off : pt.x + off;
-            const ly = small && SMALL_DY[k] != null ? pt.y + SMALL_DY[k] : pt.y - off + 4;
-            ctx.fillText(txt, lx, ly);
+            const nameFont = `700 ${small ? 11 : k === "fusion" ? 15 : 13}px "Mona Sans", sans-serif`;
+            const txt = (small ? META[k].short : META[k].name) + (k === "fusion" ? " ★" : "");
+            ctx.save();
+            ctx.font = nameFont;
+            const w = Math.max(ctx.measureText(txt).width, small ? 0 : 90);
+            const h = small ? 14 : 30;
+            const rightLimit = ca.right + (small ? 4 : 150);
+            const cands = [
+              { x: pt.x + off, y: pt.y - off - h + 14 },
+              { x: pt.x + off, y: pt.y + off - 2 },
+              { x: pt.x - off - w, y: pt.y - off - h + 14 },
+              { x: pt.x - off - w, y: pt.y + off - 2 },
+              { x: pt.x + off, y: pt.y + off + h },
+            ].filter((c) => c.x + w <= rightLimit && c.x >= 0);
+            const r = cands.map((c) => ({ ...c, w, h })).find((c) => !hits(c)) || { x: pt.x + off, y: pt.y - off - h + 14, w, h };
+            placed.push(r);
+            ctx.textAlign = "left";
+            ctx.textBaseline = "top";
+            ctx.fillStyle = META[k].color;
+            ctx.fillText(txt, r.x, r.y);
             if (!small) {
               ctx.font = `500 11px "Mona Sans", sans-serif`;
               ctx.fillStyle = "#8b949e";
-              ctx.fillText(META[k].harness, lx, pt.y - off + 18);
+              ctx.fillText(META[k].harness, r.x, r.y + 16);
             }
             ctx.restore();
           });
