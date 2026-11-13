@@ -1,479 +1,574 @@
-/* Copilot Fusion value story — vanilla JS + Chart.js */
+/* Copilot Fusion briefing: dependency-free SVG chart, tooltips and monthly cost calculator. */
 (() => {
   "use strict";
 
-  // Artificial Analysis Coding Agent Index v2.0 snapshot (retrieved 2026-11-13). Full data: data/aa-coding-agent-index-2026-11-13.json
-  const AA = [{"label":"Claude Code - Claude Opus 5.5 (Max, Default Fallback)","index":61.7,"costUsd":11.42,"timeMin":61.0,"tokensM":14.52,"frontierCode":56.0,"sweAtlasQnA":65.9,"terminalBench":63.1},{"label":"Devin Fusion CLI - Claude Opus 5.5 Max + GPT-6 Luna High","index":61.5,"costUsd":8.0,"timeMin":51.1,"tokensM":10.46,"frontierCode":53.6,"sweAtlasQnA":68.3,"terminalBench":62.6},{"label":"GitHub Copilot - Copilot Fusion (max)","index":59.9,"costUsd":5.59,"timeMin":36.1,"tokensM":7.34,"frontierCode":51.4,"sweAtlasQnA":57.0,"terminalBench":71.2},{"label":"Antigravity CLI - Gemini 4 Carbon (High)","index":59.4,"costUsd":7.74,"timeMin":29.8,"tokensM":12.55,"frontierCode":50.9,"sweAtlasQnA":63.7,"terminalBench":63.6},{"label":"Claude Code - Claude Sonnet 5.5 (Max, Default Fallback)","index":59.3,"costUsd":13.3,"timeMin":79.7,"tokensM":24.13,"frontierCode":47.6,"sweAtlasQnA":64.2,"terminalBench":66.2},{"label":"Devin Fusion CLI - Claude Fable 5.1 XHigh + SWE-2 Medium","index":58.7,"costUsd":8.2,"timeMin":37.6,"tokensM":9.81,"frontierCode":51.6,"sweAtlasQnA":68.3,"terminalBench":56.1},{"label":"Claude Code - Claude Fable 5.1 (Max, Default Fallback)","index":57.6,"costUsd":11.53,"timeMin":35.3,"tokensM":5.99,"frontierCode":48.9,"sweAtlasQnA":66.4,"terminalBench":57.6},{"label":"Codex - GPT-6 Astra (Max)","index":54.7,"costUsd":7.04,"timeMin":24.8,"tokensM":3.23,"frontierCode":49.3,"sweAtlasQnA":59.1,"terminalBench":55.6},{"label":"Codex - GPT-6.1 Sol (Max)","index":54.1,"costUsd":1.5,"timeMin":23.7,"tokensM":3.94,"frontierCode":49.4,"sweAtlasQnA":59.9,"terminalBench":53.0},{"label":"Antigravity CLI - Gemini 4 Argon (High)","index":53.2,"costUsd":11.73,"timeMin":34.7,"tokensM":13.87,"frontierCode":48.6,"sweAtlasQnA":55.1,"terminalBench":56.1},{"label":"Devin Fusion CLI - GPT-6 Astra XHigh + SWE-2 Medium","index":53.1,"costUsd":4.34,"timeMin":21.2,"tokensM":3.63,"frontierCode":49.0,"sweAtlasQnA":60.2,"terminalBench":50.0},{"label":"Muse Code - Muse Wonder (Max)","index":52.0,"costUsd":8.05,"timeMin":24.5,"tokensM":14.48,"frontierCode":46.4,"sweAtlasQnA":61.6,"terminalBench":48.0},{"label":"Opencode - GLM-5.3 (Max)","index":48.9,"costUsd":5.23,"timeMin":56.2,"tokensM":15.91,"frontierCode":48.2,"sweAtlasQnA":58.6,"terminalBench":39.9},{"label":"Mistral Vibe - Mistral Large 4 (High)","index":48.3,"costUsd":1.26,"timeMin":48.4,"tokensM":8.45,"frontierCode":44.5,"sweAtlasQnA":58.9,"terminalBench":41.4},{"label":"Codex - GPT-6.1 Terra (Xhigh)","index":48.2,"costUsd":0.69,"timeMin":16.4,"tokensM":6.89,"frontierCode":44.9,"sweAtlasQnA":53.8,"terminalBench":46.0},{"label":"Codex - GPT-6.1 Terra (Max)","index":48.1,"costUsd":1.24,"timeMin":26.1,"tokensM":12.28,"frontierCode":41.8,"sweAtlasQnA":54.0,"terminalBench":48.5},{"label":"Codex - DeepSeek V4.1 Flash (Max)","index":47.3,"costUsd":0.39,"timeMin":38.1,"tokensM":27.24,"frontierCode":52.6,"sweAtlasQnA":61.0,"terminalBench":28.3},{"label":"Grok Build - Grok 4.7 (Xhigh)","index":46.6,"costUsd":9.48,"timeMin":35.8,"tokensM":15.91,"frontierCode":43.6,"sweAtlasQnA":62.9,"terminalBench":33.3},{"label":"DeepSeek Harness - DeepSeek V4.1 Flash 1017 (Max)","index":46.3,"costUsd":0.3,"timeMin":21.4,"tokensM":16.74,"frontierCode":46.5,"sweAtlasQnA":61.6,"terminalBench":30.8},{"label":"Codex - GPT-6.1 Terra (High)","index":46.3,"costUsd":0.54,"timeMin":12.7,"tokensM":5.6,"frontierCode":43.5,"sweAtlasQnA":53.0,"terminalBench":42.4},{"label":"Muse Code - Muse Spark 1.3 (Max)","index":45.7,"costUsd":3.91,"timeMin":23.3,"tokensM":17.82,"frontierCode":46.7,"sweAtlasQnA":58.6,"terminalBench":31.8},{"label":"Claude Code - Step 5 Preview","index":43.1,"costUsd":1.84,"timeMin":61.1,"tokensM":22.14,"frontierCode":40.5,"sweAtlasQnA":58.6,"terminalBench":30.3},{"label":"Codex - GPT-6.1 Terra (Medium)","index":42.0,"costUsd":0.39,"timeMin":10.2,"tokensM":4.08,"frontierCode":43.8,"sweAtlasQnA":47.0,"terminalBench":35.4},{"label":"Kimi Code CLI - Kimi K3 (Max)","index":41.4,"costUsd":5.17,"timeMin":62.9,"tokensM":9.01,"frontierCode":43.1,"sweAtlasQnA":59.9,"terminalBench":21.2},{"label":"Claude Code - Qwen3.8 Max","index":39.2,"costUsd":3.8,"timeMin":76.1,"tokensM":9.15,"frontierCode":44.8,"sweAtlasQnA":56.2,"terminalBench":16.7},{"label":"Codex - GPT-6.1 Terra (Non-reasoning)","index":39.2,"costUsd":0.45,"timeMin":9.5,"tokensM":5.78,"frontierCode":46.2,"sweAtlasQnA":46.2,"terminalBench":25.3},{"label":"Claude Code - Claude Haiku 5.5 (Max)","index":37.3,"costUsd":2.67,"timeMin":70.9,"tokensM":16.05,"frontierCode":47.4,"sweAtlasQnA":33.9,"terminalBench":30.8},{"label":"Mistral Vibe - Mistral Large 4 (Medium)","index":35.4,"costUsd":0.78,"timeMin":38.8,"tokensM":5.76,"frontierCode":35.3,"sweAtlasQnA":44.6,"terminalBench":26.3},{"label":"Codex - GPT-6.1 Terra (Low)","index":34.9,"costUsd":0.2,"timeMin":6.3,"tokensM":1.89,"frontierCode":40.6,"sweAtlasQnA":38.7,"terminalBench":25.3},{"label":"Antigravity SDK - Gemini 3.8 Flash (High)","index":33.3,"costUsd":2.51,"timeMin":13.1,"tokensM":14.25,"frontierCode":40.8,"sweAtlasQnA":44.4,"terminalBench":14.6},{"label":"Codex - GPT-6 Luna (Max)","index":31.2,"costUsd":0.16,"timeMin":20.8,"tokensM":8.69,"frontierCode":39.5,"sweAtlasQnA":38.4,"terminalBench":15.7},{"label":"Muse Code - Muse Spark Open (Xhigh)","index":26.3,"costUsd":3.54,"timeMin":26.0,"tokensM":13.34,"frontierCode":22.5,"sweAtlasQnA":50.8,"terminalBench":5.6},{"label":"Mirror - Beam 1.0","index":20.5,"costUsd":0.32,"timeMin":38.7,"tokensM":4.89,"frontierCode":20.3,"sweAtlasQnA":37.6,"terminalBench":3.5}];
-
-  const KEY = {
-    fusion: "GitHub Copilot - Copilot Fusion (max)",
-    opus: "Claude Code - Claude Opus 5.5 (Max, Default Fallback)",
-    astra: "Codex - GPT-6 Astra (Max)",
-    sol: "Codex - GPT-6.1 Sol (Max)",
-  };
-  const META = {
-    fusion: { name: "Copilot Fusion (Max)", short: "Fusion", harness: "GitHub Copilot", color: "#f778ba" },
-    opus: { name: "Claude Opus 5.5 (Max)", short: "Opus 5.5", harness: "Claude Code", color: "#d97757" },
-    astra: { name: "GPT-6 Astra (Max)", short: "Astra", harness: "Codex", color: "#10a37f" },
-    sol: { name: "GPT-6.1 Sol (Max)", short: "Sol", harness: "Codex", color: "#58a6ff" },
-  };
-  const byLabel = Object.fromEntries(AA.map((a) => [a.label, a]));
-  const H = Object.fromEntries(Object.entries(KEY).map(([k, l]) => [k, byLabel[l]]));
-  const ORDER = ["fusion", "opus", "astra", "sol"];
-
-  const fmt$ = (v, d = 0) => "$" + v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
-  const fmtN = (v) => v.toLocaleString("en-US");
-
-  /* ---------- KPI count-up ---------- */
-  function countUp(el) {
-    const target = +el.dataset.count;
-    const suffix = el.dataset.suffix || "";
-    const t0 = performance.now();
-    const dur = 1400;
-    const step = (t) => {
-      const p = Math.min(1, (t - t0) / dur);
-      const e = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * e) + suffix;
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }
-  setTimeout(() => document.querySelectorAll("[data-count]").forEach(countUp), 350);
-
-  /* ---------- Day lanes: fixed model switcher ---------- */
-  document.querySelectorAll(".day .seg-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".day .seg-btn").forEach((b) => b.classList.toggle("active", b === btn));
-      document.querySelectorAll(".fixed-model").forEach((el) => (el.textContent = btn.dataset.model));
+  /* Monthly cost at the reader's own volume */
+  const tasks = document.getElementById("tasks");
+  const tasksPrint = document.getElementById("tasks-print");
+  const costCells = document.querySelectorAll("[data-cost]");
+  const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const updateCosts = () => {
+    const n = Number(tasks.value);
+    const valid = tasks.value.trim() !== "" && Number.isFinite(n) && n >= 0;
+    costCells.forEach((td) => {
+      td.textContent = valid ? usd.format(n * Number(td.dataset.cost)) : "–";
     });
-  });
+    if (tasksPrint) tasksPrint.textContent = valid ? n.toLocaleString("en-US") : "–";
+  };
+  if (tasks) {
+    tasks.addEventListener("input", updateCosts);
+    updateCosts();
+  }
 
-  /* ---------- Execution pattern diagrams ---------- */
-  const svg = document.getElementById("pat-svg");
-  const desc = document.getElementById("pat-desc");
+  document.querySelectorAll("[data-print]").forEach((b) => b.addEventListener("click", () => window.print()));
+
+  /* Artificial Analysis Coding Agent Index v2.0, retrieved 13 Nov 2026.
+     Generated from data/aa-coding-agent-index-2026-11-13.json.
+     [harness, model, index score, USD per task, minutes per task, tokens per task (millions), highlight] */
+  const AGENTS = [
+    ["Claude Code", "Claude Opus 5.5 (Max)", 61.7, 11.42, 61.0, 14.52, "opus"],
+    ["Devin Fusion CLI", "Claude Opus 5.5 Max + GPT-6 Luna High", 61.5, 8.0, 51.1, 10.46, null],
+    ["GitHub Copilot", "Copilot Fusion (max)", 59.9, 5.59, 36.1, 7.34, "fusion"],
+    ["Antigravity CLI", "Gemini 4 Carbon (High)", 59.4, 7.74, 29.8, 12.55, null],
+    ["Claude Code", "Claude Sonnet 5.5 (Max)", 59.3, 13.3, 79.7, 24.13, null],
+    ["Devin Fusion CLI", "Claude Fable 5.1 XHigh + SWE-2 Medium", 58.7, 8.2, 37.6, 9.81, null],
+    ["Claude Code", "Claude Fable 5.1 (Max)", 57.6, 11.53, 35.3, 5.99, null],
+    ["Codex", "GPT-6 Astra (Max)", 54.7, 7.04, 24.8, 3.23, "astra"],
+    ["Codex", "GPT-6.1 Sol (Max)", 54.1, 1.5, 23.7, 3.94, "sol"],
+    ["Antigravity CLI", "Gemini 4 Argon (High)", 53.2, 11.73, 34.7, 13.87, null],
+    ["Devin Fusion CLI", "GPT-6 Astra XHigh + SWE-2 Medium", 53.1, 4.34, 21.2, 3.63, null],
+    ["Muse Code", "Muse Wonder (Max)", 52.0, 8.05, 24.5, 14.48, null],
+    ["Opencode", "GLM-5.3 (Max)", 48.9, 5.23, 56.2, 15.91, null],
+    ["Mistral Vibe", "Mistral Large 4 (High)", 48.3, 1.26, 48.4, 8.45, null],
+    ["Codex", "GPT-6.1 Terra (Xhigh)", 48.2, 0.69, 16.4, 6.89, null],
+    ["Codex", "GPT-6.1 Terra (Max)", 48.1, 1.24, 26.1, 12.28, null],
+    ["Codex", "DeepSeek V4.1 Flash (Max)", 47.3, 0.39, 38.1, 27.24, null],
+    ["Grok Build", "Grok 4.7 (Xhigh)", 46.6, 9.48, 35.8, 15.91, null],
+    ["DeepSeek Harness", "DeepSeek V4.1 Flash 1017 (Max)", 46.3, 0.3, 21.4, 16.74, null],
+    ["Codex", "GPT-6.1 Terra (High)", 46.3, 0.54, 12.7, 5.6, null],
+    ["Muse Code", "Muse Spark 1.3 (Max)", 45.7, 3.91, 23.3, 17.82, null],
+    ["Claude Code", "Step 5 Preview", 43.1, 1.84, 61.1, 22.14, null],
+    ["Codex", "GPT-6.1 Terra (Medium)", 42.0, 0.39, 10.2, 4.08, null],
+    ["Kimi Code CLI", "Kimi K3 (Max)", 41.4, 5.17, 62.9, 9.01, null],
+    ["Claude Code", "Qwen3.8 Max", 39.2, 3.8, 76.1, 9.15, null],
+    ["Codex", "GPT-6.1 Terra (Non-reasoning)", 39.2, 0.45, 9.5, 5.78, null],
+    ["Claude Code", "Claude Haiku 5.5 (Max)", 37.3, 2.67, 70.9, 16.05, null],
+    ["Mistral Vibe", "Mistral Large 4 (Medium)", 35.4, 0.78, 38.8, 5.76, null],
+    ["Codex", "GPT-6.1 Terra (Low)", 34.9, 0.2, 6.3, 1.89, null],
+    ["Antigravity SDK", "Gemini 3.8 Flash (High)", 33.3, 2.51, 13.1, 14.25, null],
+    ["Codex", "GPT-6 Luna (Max)", 31.2, 0.16, 20.8, 8.69, null],
+    ["Muse Code", "Muse Spark Open (Xhigh)", 26.3, 3.54, 26.0, 13.34, null],
+    ["Mirror", "Beam 1.0", 20.5, 0.32, 38.7, 4.89, null]
+  ];
+
+  const svg = document.getElementById("scatter");
+  if (!svg) return;
+  const plot = svg.parentNode;
+  const tip = plot.querySelector(".tip");
+  const buttons = Array.from(document.querySelectorAll("[data-view]"));
   const NS = "http://www.w3.org/2000/svg";
-  const W = 132, NH = 56;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const PRINT_WIDTH = 491; // 130mm at 96dpi, the plot width in the print stylesheet
 
-  const PATTERNS = {
-    single: {
-      desc: "<b>Single</b> — one right-sized model completes the task directly. Same speed and cost as calling that model yourself: no extra calls when they wouldn't help.",
-      nodes: [
-        { id: "p", x: 80, y: 150, t: "Prompt" },
-        { id: "r", x: 250, y: 150, t: "Copilot Fusion", s: "analyses task", c: "router" },
-        { id: "m", x: 470, y: 150, t: "Best-fit model", s: "e.g. GPT-6.1 Sol", c: "light", w: 160 },
-        { id: "a", x: 760, y: 150, t: "Answer ✓", c: "out" },
-      ],
-      edges: [["p", "r"], ["r", "m"], ["m", "a"]],
+  const VIEWS = {
+    cost: {
+      col: 3, log: true, min: 0.12, max: 16, ticks: [0.25, 0.5, 1, 2, 5, 10],
+      tick: (v) => (v < 1 ? "$" + v.toFixed(2) : "$" + v),
+      title: "Cost per task, USD (log scale)",
+      word: "cost", better: "is cheaper", note: "at half the cost per task"
     },
-    cascade: {
-      desc: "<b>Cascade</b> — an efficient model drafts first. A judge inspects the draft and accepts it, or escalates to a stronger model <i>only when needed</i>. Frontier spend only when it pays off.",
-      nodes: [
-        { id: "p", x: 70, y: 120, t: "Prompt" },
-        { id: "r", x: 220, y: 120, t: "Copilot Fusion", c: "router" },
-        { id: "d", x: 385, y: 120, t: "Efficient model", s: "drafts", c: "light" },
-        { id: "j", x: 555, y: 120, t: "Judge", s: "quality gate", c: "judge" },
-        { id: "a", x: 820, y: 120, t: "Answer ✓", c: "out", w: 110 },
-        { id: "s", x: 690, y: 245, t: "Stronger model", s: "repairs / redoes", c: "strong" },
-      ],
-      edges: [["p", "r"], ["r", "d"], ["d", "j"], ["j", "a", "accept"], ["j", "s", "escalate if needed", true], ["s", "a", "", true]],
+    time: {
+      col: 4, log: false, min: 0, max: 85, ticks: [0, 20, 40, 60, 80],
+      tick: String,
+      title: "Minutes per task",
+      word: "time", better: "is faster", note: "in 41% less time per task"
     },
-    critique: {
-      desc: "<b>Critique</b> — one model drafts while several models from <i>different families</i> review it in parallel, read-only. Feedback is aggregated and the drafter revises once: a built-in second opinion.",
-      nodes: [
-        { id: "p", x: 65, y: 150, t: "Prompt", w: 100 },
-        { id: "r", x: 200, y: 150, t: "Copilot Fusion", c: "router", w: 128 },
-        { id: "d", x: 360, y: 150, t: "Drafting model", s: "e.g. Opus 5.5", c: "strong" },
-        { id: "c1", x: 540, y: 55, t: "Critic", s: "other family", c: "critic", w: 120 },
-        { id: "c2", x: 540, y: 150, t: "Critic", s: "other family", c: "critic", w: 120 },
-        { id: "c3", x: 540, y: 245, t: "Critic", s: "other family", c: "critic", w: 120 },
-        { id: "v", x: 705, y: 150, t: "Revise", s: "drafter, once", c: "strong", w: 120 },
-        { id: "a", x: 840, y: 150, t: "Answer ✓", c: "out", w: 100 },
-      ],
-      edges: [["p", "r"], ["r", "d"], ["d", "c1"], ["d", "c2"], ["d", "c3"], ["c1", "v"], ["c2", "v"], ["c3", "v"], ["v", "a"]],
-    },
+    tokens: {
+      col: 5, log: true, min: 1.5, max: 32, ticks: [2, 5, 10, 20],
+      tick: (v) => v + "M",
+      title: "Tokens per task, millions (log scale)",
+      word: "tokens", better: "uses fewer tokens", note: "with about half the tokens"
+    }
+  };
+  const SHORT = { fusion: "Copilot Fusion", opus: "Claude Opus 5.5 · #1", astra: "GPT-6 Astra", sol: "GPT-6.1 Sol" };
+  const FULL = { fusion: "Copilot Fusion Max", opus: "Claude Opus 5.5 Max", astra: "GPT-6 Astra Max", sol: "GPT-6.1 Sol Max" };
+  const SIZE = { fusion: 6.5, opus: 5, astra: 5, sol: 5 };
+  const DRAW_ORDER = ["sol", "astra", "opus", "fusion"];
+  const M = { top: 8, right: 16, bottom: 42, left: 46 };
+  const Y = { min: 15, max: 70, ticks: [20, 30, 40, 50, 60] };
+  const FI = AGENTS.findIndex((a) => a[6] === "fusion");
+
+  const rnd = (v) => Math.round(v * 10) / 10;
+  const pt = (p) => rnd(p[0]) + "," + rnd(p[1]);
+  const radius = (i) => SIZE[AGENTS[i][6]] || 4;
+  const make = (name, attrs, parent) => {
+    const n = document.createElementNS(NS, name);
+    Object.keys(attrs || {}).forEach((k) => n.setAttribute(k, attrs[k]));
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const write = (parent, str, attrs) => {
+    const t = make("text", attrs, parent);
+    t.textContent = str;
+    return t;
+  };
+  const clear = (n) => {
+    while (n.firstChild) n.removeChild(n.firstChild);
+  };
+  const overlap = (a, b) =>
+    Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) *
+    Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+  const hits = (box, q, r) => {
+    const dx = q[0] - Math.max(box.x, Math.min(q[0], box.x + box.w));
+    const dy = q[1] - Math.max(box.y, Math.min(q[1], box.y + box.h));
+    return dx * dx + dy * dy < r * r;
+  };
+  const gap = (box, q) =>
+    Math.hypot(q[0] - Math.max(box.x, Math.min(q[0], box.x + box.w)), q[1] - Math.max(box.y, Math.min(q[1], box.y + box.h)));
+  const crosses = (b, [a, z]) => {
+    for (let s = 0; s <= 16; s++) {
+      const x = a[0] + ((z[0] - a[0]) * s) / 16;
+      const y = a[1] + ((z[1] - a[1]) * s) / 16;
+      if (x > b.x && x < b.x + b.w && y > b.y && y < b.y + b.h) return true;
+    }
+    return false;
+  };
+  const near = ([a, z], q, r) => {
+    const vx = z[0] - a[0];
+    const vy = z[1] - a[1];
+    const u = Math.max(0, Math.min(1, ((q[0] - a[0]) * vx + (q[1] - a[1]) * vy) / (vx * vx + vy * vy || 1)));
+    return Math.hypot(a[0] + u * vx - q[0], a[1] + u * vy - q[1]) < r;
+  };
+  const ccw = (a, b, c) => (c[1] - a[1]) * (b[0] - a[0]) > (b[1] - a[1]) * (c[0] - a[0]);
+  const cut = ([a, b], [c, d]) => ccw(a, c, d) !== ccw(b, c, d) && ccw(a, b, c) !== ccw(a, b, d);
+
+  let view = "cost";
+  let W = 0;
+  let H = 0;
+  let pos = [];
+  let switchTimer = 0;
+  let loopPath = null;
+  let printing = false;
+
+  svg.setAttribute("role", "group");
+  const layer = (cls, hidden) => make("g", hidden ? { class: cls, "aria-hidden": "true" } : { class: cls }, svg);
+  const L = {
+    grid: layer("grid", true),
+    front: layer("fade", true),
+    axis: layer("axis", true),
+    pts: layer("pts", false),
+    loop: layer("loop-g", true),
+    labs: layer("fade", true),
+    note: layer("note fade", true)
   };
 
-  function el(tag, attrs = {}, parent) {
-    const e = document.createElementNS(NS, tag);
-    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
-    if (parent) parent.appendChild(e);
-    return e;
+  /* Dots: grey agents first so the four named configurations sit on top. */
+  const rank = (i) => DRAW_ORDER.indexOf(AGENTS[i][6]);
+  const nodes = AGENTS.map((a, i) => i)
+    .sort((i, j) => rank(i) - rank(j))
+    .map((i) => {
+      const [harness, , score, cost, time, , key] = AGENTS[i];
+      const g = make("g", { class: "pt" }, L.pts);
+      make("circle", { class: "hit", r: 10 }, g);
+      make("circle", { class: "dot" + (key ? " hl" : "") + (key === "fusion" ? " fusion" : ""), r: radius(i) }, g);
+      if (key) {
+        g.setAttribute("tabindex", "0");
+        g.setAttribute("role", "img");
+        g.setAttribute("aria-label", `${FULL[key]} in ${harness}: score ${score}, $${cost.toFixed(2)} and ${Math.round(time)} minutes per task`);
+        g.addEventListener("focus", () => showTip(i));
+        g.addEventListener("blur", hideTip);
+      } else {
+        g.setAttribute("aria-hidden", "true");
+      }
+      g.addEventListener("pointerenter", () => showTip(i));
+      g.addEventListener("pointerleave", (e) => {
+        if (e.pointerType !== "touch") hideTip();
+      });
+      g.addEventListener("pointerdown", (e) => {
+        e.stopPropagation();
+        showTip(i);
+      });
+      return { g, i };
+    });
+  document.addEventListener("pointerdown", hideTip);
+
+  function showTip(i) {
+    const [harness, model, score, cost, time, tokens, key] = AGENTS[i];
+    clear(tip);
+    const line = (tag, text) => {
+      const n = document.createElement(tag);
+      n.textContent = text;
+      tip.appendChild(n);
+    };
+    line("b", key ? FULL[key] : model);
+    line("span", harness);
+    line("span", `Score ${score.toFixed(1)} · $${cost.toFixed(2)} · ${Math.round(time)} min · ${tokens.toFixed(1)}M tokens`);
+    tip.hidden = false;
+    const k = svg.getBoundingClientRect().width / W || 1;
+    const x = pos[i][0] * k;
+    const y = pos[i][1] * k;
+    const half = tip.offsetWidth / 2;
+    tip.style.left = Math.max(half, Math.min(plot.clientWidth - half, x)) + "px";
+    tip.style.top = y + "px";
+    tip.classList.toggle("below", y - tip.offsetHeight - 14 < 0);
+  }
+  function hideTip() {
+    tip.hidden = true;
   }
 
-  function drawPattern(name) {
-    const P = PATTERNS[name];
-    svg.innerHTML = "";
-    const defs = el("defs", {}, svg);
-    const g = el("linearGradient", { id: "fgrad", gradientUnits: "userSpaceOnUse", x1: 0, y1: 0, x2: 900, y2: 0 }, defs);
-    el("stop", { offset: "0%", "stop-color": "#a371f7" }, g);
-    el("stop", { offset: "55%", "stop-color": "#f778ba" }, g);
-    el("stop", { offset: "100%", "stop-color": "#58a6ff" }, g);
+  function xScale() {
+    const c = VIEWS[view];
+    const f = c.log ? Math.log : (v) => v;
+    const a = f(c.min);
+    const b = f(c.max);
+    return (v) => M.left + ((f(v) - a) / (b - a)) * (W - M.right - M.left);
+  }
+  function yScale() {
+    const base = H - M.bottom;
+    return (v) => base - ((v - Y.min) / (Y.max - Y.min)) * (base - M.top);
+  }
 
-    const N = Object.fromEntries(P.nodes.map((n) => [n.id, { ...n, w: n.w || W }]));
-    const edgeLayer = el("g", {}, svg);
-    P.edges.forEach(([a, b, label, dim], i) => {
-      const A = N[a], B = N[b];
-      let x1 = A.x + A.w / 2, y1 = A.y, x2 = B.x - B.w / 2, y2 = B.y;
-      if (Math.abs(A.y - B.y) > 60 && Math.abs(A.x - B.x) < 200 && B.y > A.y) {
-        x1 = A.x; y1 = A.y + NH / 2; x2 = B.x - B.w / 2; y2 = B.y;
-      }
-      const mx = (x1 + x2) / 2;
-      const d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
-      el("path", { d, class: "edge " + (dim ? "dim flow" : "flow"), style: `animation-delay:${i * -0.15}s` }, edgeLayer);
-      if (label) {
-        const t = el("text", { x: mx, y: (y1 + y2) / 2 - 10, class: "edge-label" }, edgeLayer);
-        t.textContent = label;
-      }
+  function drawAxes() {
+    const c = VIEWS[view];
+    const x = xScale();
+    const y = yScale();
+    const base = H - M.bottom;
+    const top = rnd(y(Y.ticks[Y.ticks.length - 1]));
+    clear(L.grid);
+    clear(L.axis);
+    Y.ticks.forEach((t) => {
+      make("line", { x1: M.left, x2: W - M.right, y1: rnd(y(t)), y2: rnd(y(t)) }, L.grid);
+      write(L.grid, String(t), { x: M.left - 8, y: rnd(y(t)), dy: "0.32em", "text-anchor": "end" });
     });
-
-    P.nodes.forEach((n, i) => {
-      const w = N[n.id].w;
-      const grp = el("g", { class: "node " + (n.c || ""), style: `animation-delay:${i * 90}ms` }, svg);
-      el("rect", { x: n.x - w / 2, y: n.y - NH / 2, width: w, height: NH, rx: 12 }, grp);
-      const t = el("text", { x: n.x, y: n.s ? n.y - 8 : n.y }, grp);
-      t.textContent = n.t;
-      if (n.s) {
-        const s = el("text", { x: n.x, y: n.y + 12, class: "sub-t" }, grp);
-        s.textContent = n.s;
-      }
+    write(L.grid, "Index score", { class: "title", "text-anchor": "middle", transform: `translate(11,${rnd((top + base) / 2)}) rotate(-90)` });
+    c.ticks.forEach((t) => {
+      const tx = rnd(x(t));
+      make("line", { class: "vx", x1: tx, x2: tx, y1: top, y2: base }, L.grid);
+      make("line", { x1: tx, x2: tx, y1: base, y2: base + 4 }, L.axis);
+      write(L.axis, c.tick(t), { x: tx, y: base + 17, "text-anchor": "middle" });
     });
+    make("line", { x1: M.left, x2: W - M.right, y1: base, y2: base }, L.axis);
+    write(L.axis, c.title, { class: "title", x: rnd(M.left + (W - M.left - M.right) / 2), y: H - 6, "text-anchor": "middle" });
+  }
 
-    // Travelling pulse along the main path
-    const mainPath = P.edges.filter((e) => !e[3]).map(([a, b]) => [N[a], N[b]]);
-    if (mainPath.length) {
-      const pts = [mainPath[0][0]].concat(mainPath.map((e) => e[1]));
-      const pd = "M" + pts.map((p) => `${p.x},${p.y}`).join(" L");
-      const c = el("circle", { r: 6, class: "pulse" }, svg);
-      el("animateMotion", { dur: `${1.2 + pts.length * 0.45}s`, repeatCount: "indefinite", path: pd }, c);
+  function placePoints() {
+    const x = xScale();
+    const y = yScale();
+    const col = VIEWS[view].col;
+    pos = AGENTS.map((a) => [x(a[col]), y(a[2])]);
+    nodes.forEach(({ g, i }) => {
+      g.style.transform = `translate(${rnd(pos[i][0])}px,${rnd(pos[i][1])}px)`;
+    });
+    L.loop.style.transform = `translate(${rnd(pos[FI][0])}px,${rnd(pos[FI][1])}px)`;
+  }
+
+  /* A loose, slightly overshooting pen loop around Copilot Fusion. */
+  function loopShape() {
+    const p = [];
+    const n = 12;
+    const rot = (-10 * Math.PI) / 180;
+    for (let k = 0; k <= n; k++) {
+      const t = k / n;
+      const a = ((-40 + 385 * t) * Math.PI) / 180;
+      const wobble = 1 + 0.05 * Math.sin(3 * a + 0.6);
+      const ex = (13 + 2.2 * t) * wobble * Math.cos(a);
+      const ey = (11 + 1.6 * t) * wobble * Math.sin(a);
+      p.push([ex * Math.cos(rot) - ey * Math.sin(rot), ex * Math.sin(rot) + ey * Math.cos(rot)]);
     }
-    desc.innerHTML = P.desc;
+    let d = "M" + pt(p[0]);
+    for (let k = 0; k < n; k++) {
+      const p0 = p[Math.max(0, k - 1)];
+      const p1 = p[k];
+      const p2 = p[k + 1];
+      const p3 = p[Math.min(n, k + 2)];
+      d += "C" + pt([p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6]) + " " +
+        pt([p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6]) + " " + pt(p2);
+    }
+    return d;
   }
 
-  let patTimer;
-  const patNames = Object.keys(PATTERNS);
-  const tabs = document.querySelectorAll(".pat-tab");
-  function selectPattern(name) {
-    tabs.forEach((t) => t.classList.toggle("active", t.dataset.pat === name));
-    drawPattern(name);
+  function drawIn(path, delay, ms) {
+    const len = path.getTotalLength();
+    path.style.transition = "none";
+    path.style.strokeDasharray = `${len} ${len}`;
+    path.style.strokeDashoffset = String(len);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      path.style.transition = `stroke-dashoffset ${ms}ms cubic-bezier(.3,.7,.2,1) ${delay}ms`;
+      path.style.strokeDashoffset = "0";
+    }));
   }
-  tabs.forEach((t) =>
-    t.addEventListener("click", () => {
-      clearInterval(patTimer);
-      selectPattern(t.dataset.pat);
-    })
-  );
-  selectPattern("single");
-  let pi = 0;
-  patTimer = setInterval(() => {
-    pi = (pi + 1) % patNames.length;
-    selectPattern(patNames[pi]);
-  }, 7000);
+  function fadeIn(el, delay) {
+    el.style.opacity = "0";
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      el.style.transition = `opacity 180ms ease ${delay}ms`;
+      el.style.opacity = "1";
+    }));
+  }
 
-  /* ---------- Head-to-head cards ---------- */
-  const h2h = document.getElementById("h2h");
-  ["opus", "astra", "sol"].forEach((k) => {
-    const f = H.fusion, o = H[k];
-    const pct = (a, b) => Math.round(((a - b) / b) * 100);
-    const rows = [
-      ["Index score", `${(f.index - o.index > 0 ? "+" : "") + (f.index - o.index).toFixed(1)} pts`, f.index >= o.index ? "good" : Math.abs(f.index - o.index) < 2.5 ? "neutral" : "bad"],
-      ["Cost / task", `${pct(f.costUsd, o.costUsd) > 0 ? "+" : ""}${pct(f.costUsd, o.costUsd)}%`, f.costUsd <= o.costUsd ? "good" : "bad"],
-      ["Time / task", `${pct(f.timeMin, o.timeMin) > 0 ? "+" : ""}${pct(f.timeMin, o.timeMin)}%`, f.timeMin <= o.timeMin ? "good" : "bad"],
-      ["Tokens / task", `${pct(f.tokensM, o.tokensM) > 0 ? "+" : ""}${pct(f.tokensM, o.tokensM)}%`, f.tokensM <= o.tokensM ? "good" : "bad"],
-    ];
-    const card = document.createElement("article");
-    card.className = "h2h reveal";
-    card.innerHTML =
-      `<h4><b>Fusion</b> vs <b>${META[k].name}</b> <small>(${META[k].harness})</small></h4>` +
-      rows.map(([l, v, c]) => `<div class="h2h-row"><span>${l}</span><span class="delta ${c}">${v}</span></div>`).join("");
-    h2h.appendChild(card);
-  });
+  function drawOverlay(animate, intro) {
+    const c = VIEWS[view];
+    const fp = pos[FI];
+    [L.front, L.labs, L.note].forEach(clear);
 
-  /* ---------- Charts ---------- */
-  if (window.Chart) {
-    Chart.defaults.color = "#8b949e";
-    Chart.defaults.font.family = '"Mona Sans", -apple-system, sans-serif';
-    Chart.defaults.borderColor = "#21262d";
-    Chart.defaults.plugins.tooltip.backgroundColor = "#161b22";
-    Chart.defaults.plugins.tooltip.borderColor = "#30363d";
-    Chart.defaults.plugins.tooltip.borderWidth = 1;
-    Chart.defaults.plugins.tooltip.padding = 10;
-
-    const X = {
-      costUsd: { title: "Average cost per task (USD) — lower is better", fmt: (v) => "$" + v.toFixed(2) },
-      timeMin: { title: "Average agent time per task (minutes) — lower is better", fmt: (v) => v.toFixed(0) + " min" },
-      tokensM: { title: "Average tokens per task (millions) — lower is better", fmt: (v) => v.toFixed(1) + "M" },
-    };
-    let xKey = "costUsd";
-    let showAll = true;
-    const keyOf = (label) => Object.keys(KEY).find((k) => KEY[k] === label);
-
-    const labelPlugin = {
-      id: "pointLabels",
-      afterDatasetsDraw(chart) {
-        const { ctx, chartArea: ca } = chart;
-        const small = chart.width < 620;
-        const placed = [];
-        const hits = (r) => placed.some((q) => r.x < q.x + q.w && r.x + r.w > q.x && r.y < q.y + q.h && r.y + r.h > q.y);
-        chart.data.datasets.forEach((ds, di) => {
-          if (!ds._labels) return;
-          const meta = chart.getDatasetMeta(di);
-          meta.data.forEach((pt) => placed.push({ x: pt.x - 10, y: pt.y - 10, w: 20, h: 20 }));
-          meta.data.map((pt, i) => ({ pt, k: ds._keys[i] })).forEach(({ pt, k }) => {
-            const off = k === "fusion" ? 14 : 11;
-            const nameFont = `700 ${small ? 11 : k === "fusion" ? 15 : 13}px "Mona Sans", sans-serif`;
-            const txt = (small ? META[k].short : META[k].name) + (k === "fusion" ? " ★" : "");
-            ctx.save();
-            ctx.font = nameFont;
-            const w = Math.max(ctx.measureText(txt).width, small ? 0 : 90);
-            const h = small ? 14 : 30;
-            const rightLimit = ca.right + (small ? 4 : 150);
-            const cands = [
-              { x: pt.x + off, y: pt.y - off - h + 14 },
-              { x: pt.x + off, y: pt.y + off - 2 },
-              { x: pt.x - off - w, y: pt.y - off - h + 14 },
-              { x: pt.x - off - w, y: pt.y + off - 2 },
-              { x: pt.x + off, y: pt.y + off + h },
-            ].filter((c) => c.x + w <= rightLimit && c.x >= 0);
-            const r = cands.map((c) => ({ ...c, w, h })).find((c) => !hits(c)) || { x: pt.x + off, y: pt.y - off - h + 14, w, h };
-            placed.push(r);
-            ctx.textAlign = "left";
-            ctx.textBaseline = "top";
-            ctx.fillStyle = META[k].color;
-            ctx.fillText(txt, r.x, r.y);
-            if (!small) {
-              ctx.font = `500 11px "Mona Sans", sans-serif`;
-              ctx.fillStyle = "#8b949e";
-              ctx.fillText(META[k].harness, r.x, r.y + 16);
-            }
-            ctx.restore();
-          });
-        });
-      },
-    };
-
-    function pareto(points) {
-      const s = [...points].sort((a, b) => a.x - b.x);
-      const out = [];
-      let best = -Infinity;
-      s.forEach((p) => {
-        if (p.y > best) {
-          out.push(p);
-          best = p.y;
+    // Efficient frontier: every point on it scores higher than all agents to its left.
+    const frontier = [];
+    let best = -Infinity;
+    AGENTS.map((a, i) => i)
+      .sort((i, j) => AGENTS[i][c.col] - AGENTS[j][c.col] || AGENTS[j][2] - AGENTS[i][2])
+      .forEach((i) => {
+        if (AGENTS[i][2] > best) {
+          best = AGENTS[i][2];
+          frontier.push(pos[i]);
         }
       });
-      return out;
-    }
+    make("polyline", { class: "frontier", points: frontier.map(pt).join(" ") }, L.front);
 
-    function scatterData() {
-      const others = AA.filter((a) => !keyOf(a.label) && a[xKey] != null);
-      const hi = ORDER.map((k) => H[k]);
-      const allPts = (showAll ? others : []).concat(hi).map((a) => ({ x: a[xKey], y: a.index, label: a.label }));
-      return [
-        {
-          label: "Pareto frontier",
-          type: "line",
-          data: pareto(allPts),
-          borderColor: "rgba(163,113,247,.45)",
-          borderDash: [6, 6],
-          borderWidth: 2,
-          pointRadius: 0,
-          fill: false,
-          tension: 0,
-          order: 3,
-        },
-        {
-          label: "Other coding agents",
-          data: showAll ? others.map((a) => ({ x: a[xKey], y: a.index, label: a.label })) : [],
-          backgroundColor: "rgba(139,148,158,.35)",
-          borderColor: "rgba(139,148,158,.6)",
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          order: 2,
-        },
-        {
-          label: "Highlighted",
-          data: hi.map((a) => ({ x: a[xKey], y: a.index, label: a.label })),
-          _labels: true,
-          _keys: ORDER,
-          backgroundColor: ORDER.map((k) => META[k].color),
-          borderColor: ORDER.map((k) => (k === "fusion" ? "#fff" : META[k].color)),
-          borderWidth: ORDER.map((k) => (k === "fusion" ? 3 : 1)),
-          pointRadius: ORDER.map((k) => (k === "fusion" ? 13 : 9)),
-          pointHoverRadius: ORDER.map((k) => (k === "fusion" ? 15 : 11)),
-          pointStyle: ORDER.map((k) => (k === "fusion" ? "star" : "circle")),
-          order: 1,
-        },
-      ];
-    }
+    if (!loopPath) loopPath = make("path", { class: "loop", d: loopShape() }, L.loop);
+    if (animate && intro) drawIn(loopPath, 0, 520);
 
-    const scatter = new Chart(document.getElementById("scatter"), {
-      type: "scatter",
-      data: { datasets: scatterData() },
-      options: {
-        maintainAspectRatio: false,
-        onResize: (c, size) => (c.options.layout.padding.right = size.width < 620 ? 8 : 150),
-        layout: { padding: { right: window.innerWidth < 700 ? 8 : 150, top: 10 } },
-        animation: { duration: 900, easing: "easeOutQuart" },
-        scales: {
-          x: { title: { display: true, text: X[xKey].title, color: "#c9d1d9", font: { weight: 600 } }, beginAtZero: true, grid: { color: "#21262d" } },
-          y: { title: { display: true, text: "Coding Agent Index v2.0 — higher is better", color: "#c9d1d9", font: { weight: 600 } }, suggestedMin: 15, suggestedMax: 66, grid: { color: "#21262d" } },
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (c) => `${c.raw.label || "Pareto frontier"} — score ${c.raw.y}, ${X[xKey].fmt(c.raw.x)}`,
-            },
-          },
-        },
-      },
-      plugins: [labelPlugin],
-    });
-
-    function refreshScatter() {
-      scatter.data.datasets = scatterData();
-      scatter.options.scales.x.title.text = X[xKey].title;
-      scatter.update();
-    }
-    document.querySelectorAll("[data-x]").forEach((b) =>
-      b.addEventListener("click", () => {
-        document.querySelectorAll("[data-x]").forEach((o) => o.classList.toggle("active", o === b));
-        xKey = b.dataset.x;
-        refreshScatter();
-      })
-    );
-    document.getElementById("show-all").addEventListener("change", (e) => {
-      showAll = e.target.checked;
-      refreshScatter();
-    });
-
-    // Per-benchmark grouped bars
-    new Chart(document.getElementById("bench"), {
-      type: "bar",
-      data: {
-        labels: ["Terminal-Bench 4.0", "FrontierCode v1.1", "SWE-Atlas QnA"],
-        datasets: ORDER.map((k) => ({
-          label: META[k].name,
-          data: [H[k].terminalBench, H[k].frontierCode, H[k].sweAtlasQnA],
-          backgroundColor: META[k].color + (k === "fusion" ? "" : "cc"),
-          borderRadius: 6,
-          borderSkipped: false,
-        })),
-      },
-      options: {
-        maintainAspectRatio: false,
-        scales: { y: { beginAtZero: true, max: 80, grid: { color: "#21262d" } }, x: { grid: { display: false } } },
-        plugins: { legend: { position: "bottom", labels: { usePointStyle: true, boxWidth: 8 } } },
-      },
-    });
-
-    // Price vs performance combo
-    new Chart(document.getElementById("value"), {
-      data: {
-        labels: ORDER.map((k) => META[k].name),
-        datasets: [
-          {
-            type: "line",
-            label: "Index score",
-            data: ORDER.map((k) => H[k].index),
-            yAxisID: "y1",
-            borderColor: "#e6edf3",
-            backgroundColor: "#e6edf3",
-            pointRadius: 6,
-            pointHoverRadius: 8,
-            borderWidth: 2,
-            tension: 0.25,
-          },
-          {
-            type: "bar",
-            label: "Cost per task (USD)",
-            data: ORDER.map((k) => H[k].costUsd),
-            yAxisID: "y",
-            backgroundColor: ORDER.map((k) => META[k].color + (k === "fusion" ? "" : "aa")),
-            borderRadius: 8,
-          },
-        ],
-      },
-      options: {
-        maintainAspectRatio: false,
-        scales: {
-          y: { position: "left", beginAtZero: true, title: { display: true, text: "USD / task" }, grid: { color: "#21262d" } },
-          y1: { position: "right", min: 40, max: 65, title: { display: true, text: "Index score" }, grid: { display: false } },
-          x: { grid: { display: false } },
-        },
-        plugins: { legend: { position: "bottom", labels: { usePointStyle: true, boxWidth: 8 } } },
-      },
-    });
+    const avoid = [[{ x: fp[0] - 18, y: fp[1] - 16, w: 36, h: 32 }, 1e5]];
+    const hasNote = W - M.left - M.right >= 400 && drawNote(c, fp, avoid, animate ? (intro ? 380 : 40) : -1);
+    placeLabels(hasNote ? ["opus", "astra", "sol"] : ["fusion", "opus", "astra", "sol"], avoid, frontier);
   }
 
-  /* ---------- Calculator ---------- */
-  const CALC = [
-    { k: "fusion", promo: true },
-    { k: "opus" },
-    { k: "astra" },
-    { k: "sol" },
-  ];
-  const bars = document.getElementById("calc-bars");
-  CALC.forEach(({ k }) => {
-    const row = document.createElement("div");
-    row.className = "cbar";
-    row.innerHTML = `<div class="cbar-name" style="color:${META[k].color}">${META[k].name}<small>${META[k].harness} · score ${H[k].index}</small></div>
-      <div class="cbar-track"><div class="cbar-fill" id="fill-${k}" style="background:linear-gradient(90deg, ${META[k].color}, ${META[k].color}66)"></div><div class="cbar-val" id="val-${k}"></div></div>`;
-    bars.appendChild(row);
-  });
-  const devs = document.getElementById("devs");
-  const tasks = document.getElementById("tasks");
-  const promo = document.getElementById("promo");
-  function calc() {
-    const d = +devs.value, t = +tasks.value, n = d * t;
-    document.getElementById("devs-out").textContent = fmtN(d);
-    document.getElementById("tasks-out").textContent = fmtN(t);
-    document.getElementById("tot-tasks").textContent = fmtN(n);
-    const cost = {};
-    CALC.forEach(({ k, promo: p }) => (cost[k] = n * H[k].costUsd * (p && promo.checked ? 0.7 : 1)));
-    const max = Math.max(...Object.values(cost));
-    CALC.forEach(({ k }) => {
-      document.getElementById("fill-" + k).style.width = Math.max(2, (cost[k] / max) * 100) + "%";
-      document.getElementById("val-" + k).innerHTML = `${fmt$(cost[k])}<small>/ month · ${fmtN(Math.round(cost[k] * 100))} AI credits</small>`;
+  function drawNote(c, fp, avoid, delay) {
+    const t = make("text", {}, L.note);
+    ["Copilot Fusion Max", "1.8 pts below the #1 agent,", c.note].forEach((s, k) => {
+      make("tspan", { x: 0, dy: k ? 16 : 0, class: "n" + (k + 1) }, t).textContent = s;
     });
-    const sv = (k) => {
-      const s = cost[k] - cost.fusion;
-      return `${fmt$(s)} / mo (−${Math.round((s / cost[k]) * 100)}%)`;
+    const bb = t.getBBox();
+    const ny = M.top + 2;
+    const gap = 40;
+    const fits = (nx) => {
+      const box = { x: nx, y: ny, w: bb.width, h: bb.height };
+      if (nx < M.left + 4 || nx + bb.width > W - 4) return false;
+      if (overlap(box, avoid[0][0])) return false;
+      return pos.every((q, j) => !hits(box, q, radius(j) + 3));
     };
-    document.getElementById("save-opus").textContent = sv("opus");
-    document.getElementById("save-astra").textContent = sv("astra");
-  }
-  [devs, tasks, promo].forEach((i) => i.addEventListener("input", calc));
-  calc();
+    let side = -1;
+    let nx = fp[0] - gap - bb.width;
+    if (!fits(nx)) {
+      side = 1;
+      nx = fp[0] + gap;
+    }
+    if (!fits(nx)) {
+      clear(L.note);
+      return false;
+    }
+    t.setAttribute("transform", `translate(${rnd(nx - bb.x)},${rnd(ny - bb.y)})`);
+    avoid.push([{ x: nx - 4, y: ny - 2, w: bb.width + 8, h: bb.height + 4 }, 1e5]);
 
-  /* ---------- Output price bars ---------- */
-  const PRICES = [
-    { n: "GPT-6 Astra", v: 50, c: "#10a37f" },
-    { n: "Claude Opus 5.5", v: 20, c: "#d97757" },
-    { n: "GPT-6.1 Sol", v: 10, c: "#58a6ff" },
-    { n: "GPT-6 Luna", v: 0.5, c: "#3fb950" },
-  ];
-  const pb = document.getElementById("price-bars");
-  PRICES.forEach((p) => {
-    const r = document.createElement("div");
-    r.className = "pbar";
-    r.innerHTML = `<span>${p.n}</span><div class="pbar-track"><div class="pbar-fill" data-w="${(p.v / 50) * 100}" style="background:${p.c}"></div></div><span class="pbar-v">$${p.v.toFixed(2)}</span>`;
-    pb.appendChild(r);
+    // Hand-drawn leader from the note to the loop, ending in an open arrowhead.
+    const S = [side < 0 ? nx + bb.width + 6 : nx - 6, ny + bb.height * 0.45];
+    const ang = Math.atan2(S[1] - fp[1], S[0] - fp[0]);
+    const u = [Math.cos(ang), Math.sin(ang)];
+    const E = [fp[0] + u[0] * 17.5, fp[1] + u[1] * 15.5];
+    const C1 = [S[0] - side * Math.min(40, Math.abs(E[0] - S[0]) * 0.8), S[1]];
+    const C2 = [E[0] + u[0] * 24, E[1] + u[1] * 24];
+    const leader = make("path", { class: "leader", d: `M${pt(S)}C${pt(C1)} ${pt(C2)} ${pt(E)}` }, L.note);
+    const arm = (s) => [E[0] + Math.cos(ang + s * 0.5) * 8, E[1] + Math.sin(ang + s * 0.5) * 8];
+    const head = make("path", { class: "leader", d: `M${pt(arm(1))}L${pt(E)}L${pt(arm(-1))}` }, L.note);
+    const lb = leader.getBBox();
+    avoid.push([{ x: lb.x - 3, y: lb.y - 3, w: lb.width + 6, h: lb.height + 6 }, 2e4]);
+    if (delay >= 0 && !reduceMotion) {
+      drawIn(leader, delay, 560);
+      fadeIn(head, delay + 480);
+    }
+    return true;
+  }
+
+  /* Score every candidate spot for one label. Boxes hug the letters (cap height, plus
+     descenders when the text has any) rather than the padded text box, so labels can sit
+     close to their dot without hiding neighbours. Where every close spot would cover a dot
+     (small screens), a label may step further out and gets a fine tick back to its dot. */
+  function labelSpots(key, avoid, frontier) {
+    const i = AGENTS.findIndex((a) => a[6] === key);
+    const fusion = key === "fusion";
+    const g = make("g", { class: "lab" + (fusion ? " fusion" : "") }, L.labs);
+    const t = write(g, SHORT[key], { x: 0, y: 0 });
+    const bb = t.getBBox();
+    const fs = parseFloat(getComputedStyle(t).fontSize) || 13;
+    const w = bb.width;
+    const top = -0.74 * fs;
+    const h = (/[gjpqy]/.test(SHORT[key]) ? 0.96 : 0.78) * fs;
+    const p = pos[i];
+    const r = radius(i);
+    const dx = fusion ? 20 : r + 5;
+    const dy = fusion ? 18 : r + 4;
+    const e = 0.72;
+    const ring = (x, y) => [
+      [x, -h / 2], [-x - w, -h / 2], [-w / 2, -y - h], [-w / 2, y],
+      [x * e, -y * e - h], [-x * e - w, -y * e - h], [x * e, y * e], [-x * e - w, y * e]
+    ];
+    const flush = (y) => [[-6, -y - h], [6 - w, -y - h], [-6, y], [6 - w, y]];
+    const spots = ring(dx, dy).concat([[dx, -h * 1.05], [-dx - w, -h * 1.05], [dx, h * 0.05], [-dx - w, h * 0.05]], flush(dy));
+    const close = spots.length;
+    [12, 24].forEach((ext) => spots.push(...ring(dx + ext, dy + ext), ...flush(dy + ext)));
+    const xMin = M.left + 2;
+    const xMax = W - 2;
+    const yMax = H - M.bottom - 2;
+    const segs = frontier.slice(1).map((q, k) => [frontier[k], q]);
+    const tickFor = (b) => {
+      const q = [Math.max(b.x, Math.min(p[0], b.x + b.w)), Math.max(b.y, Math.min(p[1], b.y + b.h))];
+      const len = Math.hypot(q[0] - p[0], q[1] - p[1]);
+      const r0 = fusion ? 17 : r + 2.5;
+      if (len - r0 - 3 < 5) return null;
+      const u = [(q[0] - p[0]) / len, (q[1] - p[1]) / len];
+      return [[p[0] + u[0] * r0, p[1] + u[1] * r0], [q[0] - u[0] * 3, q[1] - u[1] * 3]];
+    };
+    return spots.map(([sx, sy], k) => {
+      const b = { x: p[0] + sx, y: p[1] + sy, w, h };
+      let s = k < close ? k * 3 : 160 + (k - close) * 3;
+      if (b.x < xMin) {
+        s += 30 + (xMin - b.x) * 3;
+        b.x = xMin;
+      }
+      if (b.x + w > xMax) {
+        s += 30 + (b.x + w - xMax) * 3;
+        b.x = xMax - w;
+      }
+      if (b.y < 0 || b.y + h > yMax) s += 1e6;
+      if (hits(b, p, r + 2)) s += 1e5;
+      const tick = k < close ? null : tickFor(b);
+      avoid.forEach(([o, weight]) => {
+        if (overlap(b, o) || (tick && crosses(o, tick))) s += weight;
+      });
+      pos.forEach((q, j) => {
+        if (j === i) return;
+        const named = !!AGENTS[j][6];
+        const room = gap(b, q) - radius(j);
+        if (room < 1) s += named ? 2e3 : 400;
+        else if (room < 2.5) s += named ? 200 : 40;
+        if (tick && near(tick, q, radius(j) + 1.5)) s += named ? 2e3 : 150;
+      });
+      segs.forEach((sg) => {
+        if (crosses(b, sg)) s += 60;
+      });
+      return { b, s, t, tick, x: bb.x, top };
+    });
+  }
+
+  /* Place all named labels together: the cheapest combination of spots wins, so one label
+     can step aside to give another a clean position. */
+  function placeLabels(keys, avoid, frontier) {
+    const sets = keys.map((key) => {
+      const all = labelSpots(key, avoid, frontier).sort((a, b) => a.s - b.s);
+      const fine = all.filter((c) => c.s < 1e5);
+      return fine.length ? fine : all.slice(0, 4);
+    });
+    const rest = sets.map((_, n) => sets.slice(n).reduce((sum, set) => sum + set[0].s, 0)).concat(0);
+    const grow = (b) => ({ x: b.x - 3, y: b.y - 2, w: b.w + 6, h: b.h + 4 });
+    const clash = (c, d) => {
+      const a = overlap(grow(c.b), d.b);
+      let s = a ? 5e3 + a * 10 : 0;
+      if (c.tick && crosses(grow(d.b), c.tick)) s += 3e3;
+      if (d.tick && crosses(grow(c.b), d.tick)) s += 3e3;
+      if (c.tick && d.tick && cut(c.tick, d.tick)) s += 3e3;
+      return s;
+    };
+    const pick = [];
+    let best = null;
+    let bestScore = Infinity;
+    const walk = (n, score) => {
+      if (n === sets.length) {
+        bestScore = score;
+        best = pick.slice();
+        return;
+      }
+      sets[n].forEach((c) => {
+        let s = score + c.s;
+        for (let m = 0; m < n; m++) s += clash(c, pick[m]);
+        if (s + rest[n + 1] >= bestScore) return;
+        pick[n] = c;
+        walk(n + 1, s);
+      });
+    };
+    walk(0, 0);
+    best.forEach((c) => {
+      c.t.setAttribute("transform", `translate(${rnd(c.b.x - c.x)},${rnd(c.b.y - c.top)})`);
+      if (!c.tick) return;
+      const [a, z] = c.tick;
+      c.t.parentNode.insertBefore(make("line", { class: "tick", x1: rnd(a[0]), y1: rnd(a[1]), x2: rnd(z[0]), y2: rnd(z[1]) }), c.t);
+    });
+  }
+
+  function render(opts) {
+    const width = opts.width || Math.round(plot.getBoundingClientRect().width);
+    if (!width) return;
+    clearTimeout(switchTimer);
+    svg.classList.add("static");
+    svg.classList.remove("switching");
+    W = width;
+    H = Math.round(Math.max(300, Math.min(500, W * (W < 480 ? 0.96 : 0.74))));
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.setAttribute("width", W);
+    svg.setAttribute("height", H);
+    drawAxes();
+    placePoints();
+    if (opts.overlay !== false) drawOverlay(!!opts.animate, !!opts.intro);
+    svg.getBoundingClientRect();
+    svg.classList.remove("static");
+  }
+
+  function describe() {
+    const c = VIEWS[view];
+    document.querySelectorAll("[data-view-word]").forEach((n) => {
+      n.textContent = c.word;
+    });
+    document.querySelectorAll("[data-view-better]").forEach((n) => {
+      n.textContent = c.better;
+    });
+    svg.setAttribute("aria-label", `Index score against ${c.word} per task for 33 coding agents. Copilot Fusion Max scores 59.9, 1.8 points below the top agent, ${c.note}.`);
+  }
+
+  function setView(next) {
+    if (next === view || !VIEWS[next]) return;
+    view = next;
+    buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === next)));
+    describe();
+    hideTip();
+    if (reduceMotion || !W) {
+      render({});
+      return;
+    }
+    clearTimeout(switchTimer);
+    svg.classList.add("switching");
+    drawAxes();
+    placePoints();
+    switchTimer = setTimeout(() => {
+      drawOverlay(true, false);
+      svg.classList.remove("switching");
+    }, 720);
+  }
+  buttons.forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
+
+  let resizeTimer = 0;
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(() => {
+      if (printing || Math.round(plot.getBoundingClientRect().width) === W) return;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => render({}), 120);
+    }).observe(plot);
+  }
+  window.addEventListener("beforeprint", () => {
+    printing = true;
+    hideTip();
+    render({ width: PRINT_WIDTH });
+  });
+  window.addEventListener("afterprint", () => {
+    printing = false;
+    render({});
   });
 
-  /* ---------- Reveal on scroll + animated bars ---------- */
-  document.querySelectorAll(".section-head, .opt, .day, .matrix-wrap, .patterns, .eff, .pool, .chart-card, .callout, .hy, .calc, .pricing, .timeline li, .quote, .cta").forEach((e) => e.classList.add("reveal"));
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((en) => {
-        if (!en.isIntersecting) return;
-        en.target.classList.add("in");
-        en.target.querySelectorAll("[data-bar]").forEach((b) => (b.style.width = b.dataset.bar + "%"));
-        en.target.querySelectorAll(".pbar-fill").forEach((b) => (b.style.width = Math.max(1, +b.dataset.w) + "%"));
-        io.unobserve(en.target);
-      });
-    },
-    { threshold: 0.15 }
-  );
-  document.querySelectorAll(".reveal").forEach((e) => io.observe(e));
+  describe();
+  render({ overlay: false });
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    render({ animate: !reduceMotion, intro: true });
+  };
+  setTimeout(start, 1200);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => (started ? render({}) : start()));
+  else start();
 })();
