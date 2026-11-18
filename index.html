@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Copilot Fusion, Auto or one model? A two-minute briefing</title>
-  <meta name="description" content="How GitHub Copilot Fusion compares with Auto and with always using one model (Claude Opus 5.5, GPT-6.1 Sol, GPT-6 Astra) on score, cost and time. Public sources only.">
+  <meta name="description" content="How GitHub Copilot Fusion compares with Auto and with always using one model (Claude Opus 5.5, GPT-6.1 Sol, GPT-6 Astra) on score, cost and time, on Terminal-Bench 4.1 and the Artificial Analysis index. Public sources only.">
   <meta property="og:title" content="Copilot Fusion, Auto or one model?">
-  <meta property="og:description" content="Within two points of the top-ranked coding agent, at half the cost per task.">
+  <meta property="og:description" content="Ranked first on Terminal-Bench 4.1, at less than half the cost of the runners-up.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap">
@@ -34,12 +34,26 @@
     <section class="hero" aria-labelledby="headline">
       <div class="hero-copy">
         <p class="kicker">Copilot Fusion vs. Auto <span class="nowrap">vs. one fixed model</span></p>
-        <h1 id="headline">Within two points of the top-ranked coding agent, at <span class="marker">half the cost</span>.</h1>
-        <p class="dek">Most teams either pin one premium model or let Auto pick one per prompt. Copilot Fusion also decides how models work together on each task, and brings in a second model only when the task calls for it.<sup><a href="#s3">3</a></sup></p>
+        <h1 id="headline">Ranked first on Terminal-Bench 4.1, at less than <span class="marker">half the cost</span> of the runners-up.</h1>
+        <p class="dek">Most teams pin one premium model or let Auto pick one per prompt. Copilot Fusion also decides how models work together on each task, and brings in a second model only when the task calls for it.<sup><a href="#s3">3</a></sup> The cost advantage holds on a second independent benchmark.</p>
 
         <figure class="ratio">
-          <figcaption>Copilot Fusion Max as a share of Claude Opus 5.5 Max, the top-ranked agent<sup><a href="#s1">1</a></sup></figcaption>
+          <figcaption>Copilot Fusion Max as a share of Claude Opus 5.5 Max, on two independent benchmarks</figcaption>
           <div class="ratio-scale" aria-hidden="true"><span>half</span><span><span class="wide-only">Opus = </span>100%</span></div>
+          <p class="ratio-group">Terminal-Bench 4.1, per trial<sup><a href="#s7">7</a></sup></p>
+          <div class="ratio-row">
+            <span class="r-label">Score</span>
+            <span class="r-raw">71.2 vs. 65.8</span>
+            <span class="track" role="img" aria-label="108 percent"><span class="fill" style="--v: 1.083"></span></span>
+            <span class="r-val">108%</span>
+          </div>
+          <div class="ratio-row">
+            <span class="r-label">Cost</span>
+            <span class="r-raw">$6.02 vs. $14.30</span>
+            <span class="track" role="img" aria-label="42 percent"><span class="fill" style="--v: .421"></span></span>
+            <span class="r-val">42%</span>
+          </div>
+          <p class="ratio-group">Artificial Analysis index, per task<sup><a href="#s1">1</a></sup></p>
           <div class="ratio-row">
             <span class="r-label">Score</span>
             <span class="r-raw">59.9 vs. 61.7</span>
@@ -47,23 +61,17 @@
             <span class="r-val">97%</span>
           </div>
           <div class="ratio-row">
-            <span class="r-label">Cost per task</span>
+            <span class="r-label">Cost</span>
             <span class="r-raw">$5.59 vs. $11.42</span>
             <span class="track" role="img" aria-label="49 percent"><span class="fill" style="--v: .489"></span></span>
             <span class="r-val">49%</span>
-          </div>
-          <div class="ratio-row">
-            <span class="r-label">Time per task</span>
-            <span class="r-raw">36 vs. 61 min</span>
-            <span class="track" role="img" aria-label="59 percent"><span class="fill" style="--v: .592"></span></span>
-            <span class="r-val">59%</span>
           </div>
         </figure>
       </div>
 
       <figure class="chart">
         <div class="chart-head">
-          <p class="fig-title"><span class="fig-no">Fig. 1</span>Score against <span data-view-word>cost</span> per task<span class="fig-sep">, </span><span class="fig-n">33 coding agents</span></p>
+          <p class="fig-title"><span class="fig-no">Fig. 1</span>Score against <span data-view-word>cost</span> per task<span class="fig-sep">, </span><span class="fig-n">Artificial Analysis index, 33 agents</span></p>
           <div class="seg" role="group" aria-label="Plot score against">
             <button type="button" data-view="cost" aria-pressed="true">Cost</button>
             <button type="button" data-view="time" aria-pressed="false">Time</button>
@@ -85,10 +93,10 @@
     </section>
 
     <ul class="facts">
-      <li><b>#3</b>of 33 coding agents on the independent Artificial Analysis index.</li>
-      <li><b>#1</b>on Terminal-Bench 4.0, at 71.2. The next best agent scores 66.2.</li>
-      <li><b>$5.59</b>per task, the lowest cost among the five top-scoring agents.</li>
-      <li><b>2</b>agents score higher. Both cost more, take longer and use more tokens.</li>
+      <li><b>+5.4</b>points over Claude Opus 5.5 and Fable 5.2, joint second on Terminal-Bench 4.1.<sup><a href="#s7">7</a></sup></li>
+      <li><b>88%</b>lower cost than Fable 5.2 on the same run, using 79% fewer tokens.<sup><a href="#s7">7</a></sup></li>
+      <li><b>+9</b>points over GPT-6.2 Astra and GPT-6.2 Sol, OpenAI's newest models in Codex.<sup><a href="#s7">7</a></sup></li>
+      <li><b>#3</b>of 33 on the broader Artificial Analysis index, and the cheapest of its top five.<sup><a href="#s1">1</a></sup></li>
     </ul>
 
     <section class="block" id="compare" aria-labelledby="h-compare">
@@ -140,14 +148,20 @@
                 <td data-label="Copilot Fusion" class="fu">Each model used, at its standard rate. 30% off on paid plans until 30 Nov 2026<sup><a href="#s3">3</a></sup></td>
               </tr>
               <tr>
-                <th scope="row">Independent score</th>
+                <th scope="row">Terminal-Bench 4.1</th>
+                <td data-label="One fixed model">65.8 Opus · 60.3 Astra · 60.9 Sol<sup><a href="#s7">7</a></sup></td>
+                <td data-label="Auto">No public score</td>
+                <td data-label="Copilot Fusion" class="fu"><strong>71.2, ranked #1</strong><sup><a href="#s7">7</a></sup></td>
+              </tr>
+              <tr>
+                <th scope="row">Artificial Analysis index</th>
                 <td data-label="One fixed model">61.7 Opus · 54.7 Astra · 54.1 Sol<sup><a href="#s1">1</a></sup></td>
                 <td data-label="Auto">No public score</td>
                 <td data-label="Copilot Fusion" class="fu"><strong>59.9, #3 of 33</strong><sup><a href="#s1">1</a></sup></td>
               </tr>
             </tbody>
           </table>
-          <p class="footnote">Fusion runs in VS Code, Copilot CLI, the Copilot app and JetBrains IDEs, where it replaces Auto in the model picker. Auto remains in Copilot cloud agent, GitHub.com, GitHub Mobile, Eclipse, Xcode and Visual Studio.<sup><a href="#s4">4</a></sup></p>
+          <p class="footnote">Fusion runs in VS Code, JetBrains IDEs, Copilot CLI, the Copilot app and Copilot in the cloud, and since 17 Nov on GitHub.com, Visual Studio and GitHub Mobile (beta).<sup><a href="#s3">3</a> <a href="#s8">8</a></sup> Auto is still offered in Eclipse and Xcode, among others.<sup><a href="#s4">4</a></sup></p>
         </div>
         <blockquote class="quote">
           <p>Previously, developers would often choose a more powerful model for a complex task and forget to switch back for everyday activities. Copilot Fusion eliminates that friction.</p>
@@ -244,7 +258,7 @@
             <p>Deepest reasoning, still careful with tokens. Same plans as High.</p>
           </div>
         </div>
-        <p class="aside-line">In GitHub's own offline tests against Claude Opus 5, the orchestration behind Fusion cost 36% to 67% less on three benchmarks, with quality between −1.5 and +4.9 points.<sup><a href="#s5">5</a></sup></p>
+        <p class="aside-line">In GitHub's own offline tests against Claude Opus 5, the orchestration behind Fusion cost 36% to 67% less on three benchmarks, with quality between −1.5 and +4.9 points.<sup><a href="#s5">5</a></sup> On 17 Nov GitHub added Claude Sonnet 5.5, GPT-6.1 Terra and MAI-Code-2 to the pools.<sup><a href="#s8">8</a></sup></p>
       </div>
     </section>
 
@@ -308,7 +322,7 @@
           </tbody>
         </table>
         <div class="verdict">
-          <p><b>Bottom line.</b> For near-frontier results, Fusion Max lands within two points of the top agent at half its cost. If cost per task is all that matters, GPT-6.1 Sol is cheaper, with a <span class="nowrap">5.8-point</span> gap in score.</p>
+          <p><b>Bottom line.</b> Fusion Max scores above Opus 5.5 on one independent benchmark and within two points on the other, at about half its cost. If cost per task is all that matters, GPT-6.1 Sol is cheaper, with a <span class="nowrap">5.8-point</span> gap in score.</p>
           <p class="footnote">Monthly figures multiply the benchmark cost per task by your volume at list API rates. They leave out the Fusion launch discount, plan allowances and your own task mix.</p>
         </div>
       </div>
@@ -333,17 +347,21 @@
         <li id="s4"><a href="https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/models/auto-model-selection">GitHub Docs, About Copilot auto model selection</a></li>
         <li id="s5"><a href="https://github.blog/ai-and-ml/github-copilot/project-hydrafusion-frontier-quality-via-multi-model-orchestration/">GitHub Blog, Project HydraFusion</a>, 4 Sep 2026</li>
         <li id="s6"><a href="https://artificialanalysis.ai/articles/github-copilot-fusion-orchestrates-anthropic-and-openai-models-to-balance-performance-and-cost">Artificial Analysis, Copilot Fusion orchestrates Anthropic and OpenAI models</a>, 28 Oct 2026</li>
+        <li id="s7"><a href="https://www.tbench.ai/">Terminal-Bench 4.1 leaderboard</a> (Stanford, Harbor, Laude Institute), retrieved 18 Nov 2026 (<a href="data/terminal-bench-4.1-2026-11-18.json">raw data</a>)</li>
+        <li id="s8"><a href="https://github.blog/changelog/2026-11-17-github-copilot-fusion-updates-more-availability-benchmarks-and-models/">GitHub Changelog, Copilot Fusion updates: availability, benchmarks and models</a>, 17 Nov 2026</li>
       </ol>
     </div>
     <div>
       <h3>Read this fairly</h3>
       <ul class="caveats">
         <li>Fixed-model results come from each vendor's own agent (Claude Code, Codex), not from Copilot.</li>
+        <li>Fusion is #1 on Terminal-Bench 4.1 and #3 on the broader index; quote both. The Terminal-Bench lead is narrow (95% intervals of about ±3 points).</li>
+        <li>GPT-6.2 Astra and Sol, released 17&nbsp;Nov, are not yet in the Artificial Analysis index.</li>
         <li>Auto has no public benchmark result, so it is compared on features only.</li>
         <li>Benchmarks may not match your workloads. Prices, discounts and model pools change; check the docs before quoting.</li>
       </ul>
     </div>
-    <p class="signoff"><span>Prepared by your GitHub account team from public sources only.</span><span>Benchmark data retrieved 13 November 2026.</span></p>
+    <p class="signoff"><span>Prepared by your GitHub account team from public sources only.</span><span>Benchmark data retrieved 13 and 18 November 2026.</span></p>
   </footer>
 
 </div>

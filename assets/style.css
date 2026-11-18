@@ -89,16 +89,23 @@ p, li, figcaption, td, .signoff span { text-wrap: pretty; }
   font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--ink-2);
 }
 
-/* Fusion as a share of Opus */
+/* Fusion as a share of Opus. Tracks run from 0 to 120% so a lead over Opus stays visible. */
 .ratio { margin: 0; border-top: 1px solid var(--ink); padding-top: 10px; }
 .ratio figcaption { font-size: 13px; color: var(--ink-3); margin-bottom: 10px; }
 .ratio-scale, .ratio-row {
-  display: grid; grid-template-columns: 8.4em minmax(0, 1fr) 3.4em; column-gap: 16px;
+  display: grid; grid-template-columns: 8.4em minmax(0, 1fr) 4.6em; column-gap: 16px;
 }
 .ratio-scale { color: var(--ink-3); }
-.ratio-scale span { grid-column: 2; grid-row: 1; font-size: 11px; letter-spacing: .03em; }
-.ratio-scale span:first-child { justify-self: center; }
-.ratio-scale span:last-child { justify-self: end; }
+.ratio-scale > span {
+  grid-column: 2; grid-row: 1; justify-self: start; transform: translateX(-50%);
+  font-size: 11px; letter-spacing: .03em; white-space: nowrap;
+}
+.ratio-scale > span:first-child { margin-left: calc(100% * .5 / 1.2); }
+.ratio-scale > span:last-child { margin-left: calc(100% / 1.2); color: var(--ink-2); font-weight: 600; }
+.ratio-group {
+  margin: 12px 0 0; padding-bottom: 3px; border-bottom: 1px solid var(--rule);
+  font-size: 11px; font-weight: 650; font-stretch: 110%; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2);
+}
 .ratio-row {
   grid-template-areas: "l t v" "r t v"; align-items: center;
   padding: 9px 0; border-bottom: 1px solid var(--rule);
@@ -110,13 +117,12 @@ p, li, figcaption, td, .signoff span { text-wrap: pretty; }
   grid-area: t; position: relative; height: 14px;
   border: 1px solid var(--ink); background: var(--paper-2);
 }
-.track::after {
-  content: ""; position: absolute; left: 50%; top: -5px; bottom: -5px;
-  border-left: 1px dashed var(--ink-3); opacity: .6;
-}
+.track::before, .track::after { content: ""; position: absolute; z-index: 1; top: -5px; bottom: -5px; }
+.track::before { left: calc(100% * .5 / 1.2); border-left: 1px dashed var(--ink-3); opacity: .6; }
+.track::after { left: calc(100% / 1.2); border-left: 1.5px solid var(--ink); }
 .fill {
   position: absolute; left: -1px; top: -1px; bottom: -1px;
-  width: calc(var(--v) * 100% + 1px); background: var(--accent);
+  width: calc(var(--v) / 1.2 * 100% + 1px); background: var(--accent);
   transform-origin: left center; animation: grow 1000ms 150ms var(--ease) both;
 }
 @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
@@ -382,7 +388,7 @@ h2 {
 }
 @media screen and (max-width: 400px) {
   h1 { font-size: 32px; }
-  .ratio-scale, .ratio-row { grid-template-columns: 7.2em minmax(0, 1fr) 3em; column-gap: 12px; }
+  .ratio-scale, .ratio-row { grid-template-columns: 6.4em minmax(0, 1fr) 3.6em; column-gap: 12px; }
   .r-val { font-size: 24px; }
   .h2h tbody tr { grid-template-columns: repeat(2, auto); }
 }
@@ -415,34 +421,37 @@ h2 {
   .cap { margin-top: 4px; }
   .facts b { font-size: 30px; }
   .facts li { font-size: 12px; padding: 10px 14px 12px; }
-  .block { padding-top: 16px; break-inside: avoid; }
+  .block { padding-top: 12px; break-inside: avoid; }
   #compare, #head-to-head { break-before: page; padding-top: 0; }
-  .block-head { margin-bottom: 10px; }
+  .block-head { margin-bottom: 8px; }
   .block-body { margin-left: 0; }
   .block-head { grid-template-columns: 52px minmax(0, 1fr); }
   .num { font-size: 32px; }
   h2 { font-size: 25px; }
   .table { font-size: 12px; }
-  .table th, .table td { padding: 5px 12px 5px 0; }
+  .table th, .table td { padding: 4px 12px 4px 0; }
   .compare tbody th { width: 16%; }
   .compare td { width: 22%; }
   .compare td.fu { width: 40%; }
-  .footnote { margin-top: 8px; font-size: 11.5px; }
-  .compare-grid { grid-template-columns: 1fr; gap: 14px; }
+  .footnote { margin-top: 6px; font-size: 11.5px; }
+  .compare-grid { grid-template-columns: 1fr; gap: 10px; }
   .quote { display: grid; grid-template-columns: minmax(0, 1fr) 200px; column-gap: 28px; align-items: end; border-top-width: 2px; padding-top: 10px; }
-  .quote p { margin: 0; font-size: 15.5px; }
+  .quote p { margin: 0; font-size: 15px; }
   .ratio-scale .wide-only { display: none; }
-  .ratio-scale, .ratio-row { grid-template-columns: 8.4em minmax(0, 1fr) 4.4em; column-gap: 12px; }
-  .r-val { font-size: 25px; }
-  .effort { margin-top: 14px; padding-top: 10px; }
+  .ratio-scale, .ratio-row { grid-template-columns: 8.4em minmax(0, 1fr) 5.2em; column-gap: 12px; }
+  .ratio-group { margin-top: 8px; }
+  .ratio-row { padding: 7px 0; }
+  .r-val { font-size: 24px; }
+  .effort { margin-top: 10px; padding-top: 8px; }
   .effort h3, .pattern figcaption b { font-size: 18px; }
   .effort h3 span { display: block; margin: 2px 0 0; vertical-align: 0; }
-  .aside-line { margin-top: 14px; }
+  .aside-line { margin-top: 10px; }
   .patterns, .effort { gap: 18px; }
   .pattern figcaption, .effort p { font-size: 12px; }
   .aside-line, .verdict p:first-child { font-size: 14.5px; }
   .volume input { display: none; }
   .volume .print-only { display: inline; color: var(--ink); font-variant-numeric: tabular-nums; }
-  .colophon { margin-top: 22px; font-size: 11.5px; break-inside: avoid; }
+  .colophon { margin-top: 18px; padding: 16px 0 0; gap: 24px; grid-template-columns: .8fr 1.4fr 1fr; font-size: 11.5px; line-height: 1.45; break-inside: avoid; }
+  .colophon li { margin-bottom: 3px; }
   a { text-decoration: none; }
 }

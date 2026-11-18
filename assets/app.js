@@ -333,7 +333,7 @@
 
   function drawNote(c, fp, avoid, delay) {
     const t = make("text", {}, L.note);
-    ["Copilot Fusion Max", "1.8 pts below the #1 agent,", c.note].forEach((s, k) => {
+    ["Copilot Fusion Max", "1.8 pts below the index leader,", c.note].forEach((s, k) => {
       make("tspan", { x: 0, dy: k ? 16 : 0, class: "n" + (k + 1) }, t).textContent = s;
     });
     const bb = t.getBBox();
@@ -518,7 +518,7 @@
     document.querySelectorAll("[data-view-better]").forEach((n) => {
       n.textContent = c.better;
     });
-    svg.setAttribute("aria-label", `Index score against ${c.word} per task for 33 coding agents. Copilot Fusion Max scores 59.9, 1.8 points below the top agent, ${c.note}.`);
+    svg.setAttribute("aria-label", `Index score against ${c.word} per task for 33 coding agents. Copilot Fusion Max scores 59.9, 1.8 points below the index leader, ${c.note}.`);
   }
 
   function setView(next) {
