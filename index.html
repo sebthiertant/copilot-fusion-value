@@ -6,7 +6,7 @@
   <title>Copilot Fusion, Auto or one model? A two-minute briefing</title>
   <meta name="description" content="How GitHub Copilot Fusion compares with Auto and with always using one model (Claude Opus 5.5, GPT-6.1 Sol, GPT-6 Astra) on score, cost and time, on Terminal-Bench 4.1 and the Artificial Analysis index. Public sources only.">
   <meta property="og:title" content="Copilot Fusion, Auto or one model?">
-  <meta property="og:description" content="Ranked first on Terminal-Bench 4.1, at less than half the cost of the runners-up.">
+  <meta property="og:description" content="#1 on Terminal-Bench 4.1, at less than half the runners-up's cost.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap">
@@ -34,11 +34,11 @@
     <section class="hero" aria-labelledby="headline">
       <div class="hero-copy">
         <p class="kicker">Copilot Fusion vs. Auto <span class="nowrap">vs. one fixed model</span></p>
-        <h1 id="headline">Ranked first on Terminal-Bench 4.1, at less than <span class="marker">half the cost</span> of the runners-up.</h1>
-        <p class="dek">Most teams pin one premium model or let Auto pick one per prompt. Copilot Fusion also decides how models work together on each task, and brings in a second model only when the task calls for it.<sup><a href="#s3">3</a></sup> The cost advantage holds on a second independent benchmark.</p>
+        <h1 id="headline">#1 on <span class="nowrap">Terminal-Bench</span> 4.1, at less than <span class="marker">half the cost</span> of the runners-up.</h1>
+        <p class="dek">Auto picks one model per prompt. Fusion also decides how models work together, adding a second only when the task needs it.<sup><a href="#s3">3</a></sup></p>
 
         <figure class="ratio">
-          <figcaption>Copilot Fusion Max as a share of Claude Opus 5.5 Max, on two independent benchmarks</figcaption>
+          <figcaption>Fusion Max as a share of Claude Opus 5.5 Max, two independent benchmarks</figcaption>
           <div class="ratio-scale" aria-hidden="true"><span>half</span><span><span class="wide-only">Opus = </span>100%</span></div>
           <p class="ratio-group">Terminal-Bench 4.1, per trial<sup><a href="#s7">7</a></sup></p>
           <div class="ratio-row">
@@ -84,26 +84,26 @@
         </div>
         <figcaption>
           <span class="key"><i class="k-fu"></i>Copilot Fusion Max</span>
-          <span class="key"><i class="k-hl"></i>One fixed model, Max effort, in its vendor's agent</span>
+          <span class="key"><i class="k-hl"></i>Fixed model at Max, in its vendor's agent</span>
           <span class="key"><i class="k-ot"></i>Other agents</span>
           <span class="key"><i class="k-fr"></i>Efficient frontier</span>
-          <span class="cap">Higher is better; further left <span data-view-better>is cheaper</span>.<span class="cap-src">Source: Artificial Analysis Coding Agent Index v2.0, 13&nbsp;Nov&nbsp;2026.<sup><a href="#s1">1</a></sup></span></span>
+          <span class="cap">Higher is better; further left <span data-view-better>is cheaper</span>.<span class="cap-src">Source: Artificial Analysis, 13&nbsp;Nov&nbsp;2026.<sup><a href="#s1">1</a></sup></span></span>
         </figcaption>
       </figure>
     </section>
 
     <ul class="facts">
-      <li><b>+5.4</b>points over Claude Opus 5.5 and Fable 5.2, joint second on Terminal-Bench 4.1.<sup><a href="#s7">7</a></sup></li>
-      <li><b>88%</b>lower cost than Fable 5.2 on the same run, using 79% fewer tokens.<sup><a href="#s7">7</a></sup></li>
-      <li><b>+9</b>points over GPT-6.2 Astra and GPT-6.2 Sol, OpenAI's newest models in Codex.<sup><a href="#s7">7</a></sup></li>
-      <li><b>#3</b>of 33 on the broader Artificial Analysis index, and the cheapest of its top five.<sup><a href="#s1">1</a></sup></li>
+      <li><b>+5.4</b>points over Opus 5.5 and Fable 5.2, joint second on Terminal-Bench.<sup><a href="#s7">7</a></sup></li>
+      <li><b>88%</b>cheaper than Fable 5.2, with 79% fewer tokens.<sup><a href="#s7">7</a></sup></li>
+      <li><b>+9</b>points over GPT-6.2 Astra and Sol, OpenAI's newest.<sup><a href="#s7">7</a></sup></li>
+      <li><b>#3</b>of 33 on the Artificial Analysis index; cheapest of the top five.<sup><a href="#s1">1</a></sup></li>
     </ul>
 
     <section class="block" id="compare" aria-labelledby="h-compare">
       <header class="block-head">
         <span class="num" aria-hidden="true">01</span>
         <h2 id="h-compare">Three ways to choose a model</h2>
-        <p>The difference is who decides, and whether a second model ever checks the work.</p>
+        <p>Who picks the model, and whether another checks its work.</p>
       </header>
       <div class="block-body compare-grid">
         <div>
@@ -113,45 +113,39 @@
                 <th scope="col"><span class="sr">Question</span></th>
                 <th scope="col">One fixed model<small>e.g. Opus 5.5, Sol, Astra</small></th>
                 <th scope="col">Auto<small>Previous default</small></th>
-                <th scope="col" class="fu">Copilot Fusion<small>Generally available since 28 Oct 2026</small></th>
+                <th scope="col" class="fu">Copilot Fusion<small>GA since 28 Oct 2026</small></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Who decides</th>
-                <td data-label="One fixed model">The developer, task by task</td>
-                <td data-label="Auto">Copilot, per prompt</td>
-                <td data-label="Copilot Fusion" class="fu">Copilot, per prompt, including how models work together</td>
-              </tr>
-              <tr>
-                <th scope="row">Models per task</th>
-                <td data-label="One fixed model">One, always the same</td>
-                <td data-label="Auto">One, picked per prompt</td>
-                <td data-label="Copilot Fusion" class="fu">One at Standard; several at High and Max, only when the task warrants it</td>
+                <th scope="row">Model choice</th>
+                <td data-label="One fixed model">Developer; always the same</td>
+                <td data-label="Auto">Copilot, one per prompt</td>
+                <td data-label="Copilot Fusion" class="fu">Copilot, per prompt: one at Standard, several at High and Max when needed</td>
               </tr>
               <tr>
                 <th scope="row">Built-in review</th>
                 <td data-label="One fixed model">No</td>
                 <td data-label="Auto">No</td>
-                <td data-label="Copilot Fusion" class="fu">Yes. A judge can escalate a draft, or several models critique it</td>
+                <td data-label="Copilot Fusion" class="fu">Yes: a judge escalates, or several models critique</td>
               </tr>
               <tr>
                 <th scope="row">Controls</th>
-                <td data-label="One fixed model">The model's reasoning level</td>
+                <td data-label="One fixed model">Reasoning level</td>
                 <td data-label="Auto">Efficiency, Balance or Intelligence</td>
-                <td data-label="Copilot Fusion" class="fu">Standard, High or Max. Admins can limit its models and make it the default</td>
+                <td data-label="Copilot Fusion" class="fu">Standard, High or Max; admins set models and default</td>
               </tr>
               <tr>
                 <th scope="row">Price</th>
-                <td data-label="One fixed model">The model's standard rate</td>
+                <td data-label="One fixed model">Model rate</td>
                 <td data-label="Auto">Model rate, 10% off on paid plans<sup><a href="#s4">4</a></sup></td>
-                <td data-label="Copilot Fusion" class="fu">Each model used, at its standard rate. 30% off on paid plans until 30 Nov 2026<sup><a href="#s3">3</a></sup></td>
+                <td data-label="Copilot Fusion" class="fu">Rate of each model used; 30% off on paid plans until 30 Nov<sup><a href="#s3">3</a></sup></td>
               </tr>
               <tr>
                 <th scope="row">Terminal-Bench 4.1</th>
                 <td data-label="One fixed model">65.8 Opus · 60.3 Astra · 60.9 Sol<sup><a href="#s7">7</a></sup></td>
                 <td data-label="Auto">No public score</td>
-                <td data-label="Copilot Fusion" class="fu"><strong>71.2, ranked #1</strong><sup><a href="#s7">7</a></sup></td>
+                <td data-label="Copilot Fusion" class="fu"><strong>71.2, #1</strong><sup><a href="#s7">7</a></sup></td>
               </tr>
               <tr>
                 <th scope="row">Artificial Analysis index</th>
@@ -161,7 +155,7 @@
               </tr>
             </tbody>
           </table>
-          <p class="footnote">Fusion runs in VS Code, JetBrains IDEs, Copilot CLI, the Copilot app and Copilot in the cloud, and since 17 Nov on GitHub.com, Visual Studio and GitHub Mobile (beta).<sup><a href="#s3">3</a> <a href="#s8">8</a></sup> Auto is still offered in Eclipse and Xcode, among others.<sup><a href="#s4">4</a></sup></p>
+          <p class="footnote">Fusion: VS Code, JetBrains, Copilot CLI, Copilot app, Copilot in the cloud; since 17 Nov, GitHub.com, Visual Studio, GitHub Mobile (beta).<sup><a href="#s3">3</a> <a href="#s8">8</a></sup> Auto also covers Eclipse and Xcode.<sup><a href="#s4">4</a></sup></p>
         </div>
         <blockquote class="quote">
           <p>Previously, developers would often choose a more powerful model for a complex task and forget to switch back for everyday activities. Copilot Fusion eliminates that friction.</p>
@@ -173,8 +167,8 @@
     <section class="block" id="how" aria-labelledby="h-how">
       <header class="block-head">
         <span class="num" aria-hidden="true">02</span>
-        <h2 id="h-how">How Fusion decides, prompt by prompt</h2>
-        <p>It uses the lightest pattern likely to do the job. The extra model calls, in blue, happen only when a task warrants them.<sup><a href="#s3">3</a></sup></p>
+        <h2 id="h-how">How Fusion decides</h2>
+        <p>The lightest pattern that does the job. Extra model calls, in blue, only when needed.<sup><a href="#s3">3</a></sup></p>
       </header>
       <div class="block-body">
         <div class="patterns">
@@ -188,7 +182,7 @@
               <line x1="224" y1="60" x2="286" y2="60" class="ln" marker-end="url(#ah1)"/>
               <text x="290" y="64" class="lbl">Result</text>
             </svg>
-            <figcaption><b>Single</b>One model does the task. Same speed and cost as asking it directly.</figcaption>
+            <figcaption><b>Single</b>One model, at its own speed and cost.</figcaption>
           </figure>
           <figure class="pattern">
             <svg viewBox="0 0 340 120" role="img" aria-label="Cascade: an efficient model drafts, a judge accepts the draft or escalates to a stronger model.">
@@ -211,7 +205,7 @@
               <text x="210" y="102" class="nt x">Stronger model</text>
               <path d="M264,98 C300,98 312,82 312,50" class="ln x" marker-end="url(#ah2x)"/>
             </svg>
-            <figcaption><b>Cascade</b>An efficient model drafts. A judge accepts the draft or hands it to a stronger model.</figcaption>
+            <figcaption><b>Cascade</b>An efficient model drafts; a judge accepts or escalates.</figcaption>
           </figure>
           <figure class="pattern">
             <svg viewBox="0 0 340 120" role="img" aria-label="Critique: one model drafts, three models critique it in parallel, and the first model revises.">
@@ -240,33 +234,33 @@
               <line x1="286" y1="60" x2="300" y2="60" class="ln" marker-end="url(#ah3)"/>
               <text x="304" y="64" class="lbl">Result</text>
             </svg>
-            <figcaption><b>Critique</b>One model drafts, several critique it in parallel, and the first model revises.</figcaption>
+            <figcaption><b>Critique</b>One drafts, several critique in parallel, the first revises.</figcaption>
           </figure>
         </div>
 
         <div class="effort">
           <div>
             <h3>Standard <span>previously Auto</span></h3>
-            <p>One model per task, balancing cost, quality and speed. Every plan.</p>
+            <p>One model; balances cost, quality and speed. All plans.</p>
           </div>
           <div>
             <h3>High <span>previously HydraFusion</span></h3>
-            <p>Adds model calls for substantial tasks, with moderate token savings. Pro+, Max, Business, Enterprise.</p>
+            <p>Extra calls on substantial tasks; saves some tokens. Pro+, Max, Business, Enterprise.</p>
           </div>
           <div>
             <h3>Max <span>previously HydraFusion Max</span></h3>
-            <p>Deepest reasoning, still careful with tokens. Same plans as High.</p>
+            <p>Deepest reasoning, token-efficient. Same plans.</p>
           </div>
         </div>
-        <p class="aside-line">In GitHub's own offline tests against Claude Opus 5, the orchestration behind Fusion cost 36% to 67% less on three benchmarks, with quality between −1.5 and +4.9 points.<sup><a href="#s5">5</a></sup> On 17 Nov GitHub added Claude Sonnet 5.5, GPT-6.1 Terra and MAI-Code-2 to the pools.<sup><a href="#s8">8</a></sup></p>
+        <p class="aside-line">GitHub's offline tests vs. Claude Opus 5: 36–67% lower cost on three benchmarks, quality −1.5 to +4.9 points.<sup><a href="#s5">5</a></sup> New in the pools on 17 Nov: Claude Sonnet 5.5, GPT-6.1 Terra, MAI-Code-2.<sup><a href="#s8">8</a></sup></p>
       </div>
     </section>
 
     <section class="block" id="head-to-head" aria-labelledby="h-h2h">
       <header class="block-head">
         <span class="num" aria-hidden="true">03</span>
-        <h2 id="h-h2h">Head to head with three fixed models</h2>
-        <p>Same benchmark, same tasks. Averages per task from Artificial Analysis.<sup><a href="#s1">1</a></sup></p>
+        <h2 id="h-h2h">Head to head</h2>
+        <p>Three fixed models, same tasks. Artificial Analysis averages.<sup><a href="#s1">1</a></sup></p>
       </header>
       <div class="block-body">
         <p class="volume">
@@ -322,8 +316,8 @@
           </tbody>
         </table>
         <div class="verdict">
-          <p><b>Bottom line.</b> Fusion Max scores above Opus 5.5 on one independent benchmark and within two points on the other, at about half its cost. If cost per task is all that matters, GPT-6.1 Sol is cheaper, with a <span class="nowrap">5.8-point</span> gap in score.</p>
-          <p class="footnote">Monthly figures multiply the benchmark cost per task by your volume at list API rates. They leave out the Fusion launch discount, plan allowances and your own task mix.</p>
+          <p><b>Bottom line.</b> Fusion beats Opus 5.5 on Terminal-Bench and is within two points here, at half the cost. Sol is cheaper, but <span class="nowrap">5.8 points</span> lower.</p>
+          <p class="footnote">Cost per task × volume, at list API rates; excludes the launch discount, plan allowances and your task mix.</p>
         </div>
       </div>
     </section>
@@ -333,35 +327,35 @@
     <div>
       <h3>Get started</h3>
       <ol class="steps">
-        <li>Admins choose which models Fusion may use, in enterprise model policies.</li>
-        <li>Optionally, make Fusion the default at any effort level with Enterprise managed settings.</li>
-        <li>Developers pick <b>Copilot Fusion</b> in the model picker, then Standard, High or Max.</li>
+        <li>Admins allow models in enterprise model policies.</li>
+        <li>Optionally, make Fusion the default in Enterprise managed settings.</li>
+        <li>Developers pick <b>Copilot Fusion</b>, then Standard, High or Max.</li>
       </ol>
     </div>
     <div>
       <h3>Sources</h3>
       <ol class="sources">
-        <li id="s1"><a href="https://artificialanalysis.ai/agents/coding-agents?routers=true">Artificial Analysis, Coding Agent Index v2.0</a>, retrieved 13 Nov 2026 (<a href="data/aa-coding-agent-index-2026-11-13.json">raw data</a>)</li>
-        <li id="s2"><a href="https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion">GitHub Changelog, Route and orchestrate models with Copilot Fusion</a>, 28 Oct 2026</li>
-        <li id="s3"><a href="https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/models/copilot-fusion">GitHub Docs, About GitHub Copilot Fusion</a></li>
-        <li id="s4"><a href="https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/models/auto-model-selection">GitHub Docs, About Copilot auto model selection</a></li>
+        <li id="s1"><a href="https://artificialanalysis.ai/agents/coding-agents?routers=true">Artificial Analysis Coding Agent Index v2.0</a>, 13 Nov 2026 (<a href="data/aa-coding-agent-index-2026-11-13.json">raw data</a>)</li>
+        <li id="s2"><a href="https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion">GitHub Changelog, Fusion launch</a>, 28 Oct 2026</li>
+        <li id="s3"><a href="https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/models/copilot-fusion">GitHub Docs, Copilot Fusion</a></li>
+        <li id="s4"><a href="https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/models/auto-model-selection">GitHub Docs, Auto model selection</a></li>
         <li id="s5"><a href="https://github.blog/ai-and-ml/github-copilot/project-hydrafusion-frontier-quality-via-multi-model-orchestration/">GitHub Blog, Project HydraFusion</a>, 4 Sep 2026</li>
-        <li id="s6"><a href="https://artificialanalysis.ai/articles/github-copilot-fusion-orchestrates-anthropic-and-openai-models-to-balance-performance-and-cost">Artificial Analysis, Copilot Fusion orchestrates Anthropic and OpenAI models</a>, 28 Oct 2026</li>
-        <li id="s7"><a href="https://www.tbench.ai/">Terminal-Bench 4.1 leaderboard</a> (Stanford, Harbor, Laude Institute), retrieved 18 Nov 2026 (<a href="data/terminal-bench-4.1-2026-11-18.json">raw data</a>)</li>
-        <li id="s8"><a href="https://github.blog/changelog/2026-11-17-github-copilot-fusion-updates-more-availability-benchmarks-and-models/">GitHub Changelog, Copilot Fusion updates: availability, benchmarks and models</a>, 17 Nov 2026</li>
+        <li id="s6"><a href="https://artificialanalysis.ai/articles/github-copilot-fusion-orchestrates-anthropic-and-openai-models-to-balance-performance-and-cost">Artificial Analysis, Fusion analysis</a>, 28 Oct 2026</li>
+        <li id="s7"><a href="https://www.tbench.ai/">Terminal-Bench 4.1</a> (Stanford, Harbor, Laude Institute), 18 Nov 2026 (<a href="data/terminal-bench-4.1-2026-11-18.json">raw data</a>)</li>
+        <li id="s8"><a href="https://github.blog/changelog/2026-11-17-github-copilot-fusion-updates-more-availability-benchmarks-and-models/">GitHub Changelog, Fusion updates</a>, 17 Nov 2026</li>
       </ol>
     </div>
     <div>
       <h3>Read this fairly</h3>
       <ul class="caveats">
-        <li>Fixed-model results come from each vendor's own agent (Claude Code, Codex), not from Copilot.</li>
-        <li>Fusion is #1 on Terminal-Bench 4.1 and #3 on the broader index; quote both. The Terminal-Bench lead is narrow (95% intervals of about ±3 points).</li>
-        <li>GPT-6.2 Astra and Sol, released 17&nbsp;Nov, are not yet in the Artificial Analysis index.</li>
-        <li>Auto has no public benchmark result, so it is compared on features only.</li>
-        <li>Benchmarks may not match your workloads. Prices, discounts and model pools change; check the docs before quoting.</li>
+        <li>Fixed models ran in their vendors' agents (Claude Code, Codex), not Copilot.</li>
+        <li>Quote both ranks: #1 on Terminal-Bench (narrow lead, 95% intervals of ±3 points) and #3 on Artificial Analysis.</li>
+        <li>GPT-6.2 Astra and Sol (17&nbsp;Nov) are not yet in Artificial Analysis.</li>
+        <li>Auto has no public score; compared on features only.</li>
+        <li>Benchmarks are not your workload. Check prices, discounts and model pools before quoting.</li>
       </ul>
     </div>
-    <p class="signoff"><span>Prepared by your GitHub account team from public sources only.</span><span>Benchmark data retrieved 13 and 18 November 2026.</span></p>
+    <p class="signoff"><span>Prepared by your GitHub account team from public sources.</span><span>Data retrieved 13 and 18 Nov 2026.</span></p>
   </footer>
 
 </div>
