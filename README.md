@@ -1,6 +1,6 @@
 # Copilot Fusion: a two-minute model choice briefing
 
-A short, print-style page for customer conversations. It compares three ways to choose a model in GitHub Copilot:
+A short, tile-based briefing for customer conversations. It compares three ways to choose a model in GitHub Copilot:
 
 - **One fixed model**: Claude Opus 5.5, GPT-6.1 Sol or GPT-6 Astra
 - **Auto** (the previous default): one model picked per prompt
@@ -36,4 +36,4 @@ Every figure comes from public sources linked at the bottom of the page: the Git
 
 ## Built with
 
-Plain HTML, CSS and JavaScript. The chart is hand-drawn SVG, with no libraries and no build step. Fonts: Mona Sans and Newsreader, from Google Fonts.
+Plain HTML, CSS and JavaScript. The chart is hand-drawn SVG, with no libraries and no build step. Fonts: Outfit and JetBrains Mono, from Google Fonts.
